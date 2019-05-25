@@ -21,6 +21,10 @@ source default_vars.sh
 source tests/$TEST_NAME
 
 export RUNDIR=${RUNDIR_ROOT}/${TEST_NAME}
+# Append RT_DIR_SUFFIX to RUNDIR and CNTL_DIR
+export RUNDIR=${RUNDIR}${RT_DIR_SUFFIX}
+export CNTL_DIR=${CNTL_DIR}${RT_DIR_SUFFIX}
+
 JBNME=$(basename $RUNDIR_ROOT)_${TEST_NR}
 export JBNME
 

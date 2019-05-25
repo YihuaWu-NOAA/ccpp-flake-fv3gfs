@@ -456,6 +456,15 @@ while read -r line; do
         echo " bash Compile is done"
       fi
 
+      # Set RT_DIR_SUFFIX for REPRO (IPD, CCPP) or PROD (CCPP) runs
+      if [[ ${NEMS_VER^^} =~ "REPRO=Y" ]]; then
+        RT_DIR_SUFFIX="_repro"
+      elif [[ ${NEMS_VER^^} =~ "CCPP=Y" ]]; then
+        RT_DIR_SUFFIX="_ccpp"
+      else
+        RT_DIR_SUFFIX=""
+      fi
+
     continue
 
   elif [[ $line == APPBUILD* ]] ; then
@@ -480,6 +489,15 @@ while read -r line; do
           test -x ./appbuild.sh
         MACHINE_ID=${MACHINE_ID} ./appbuild.sh "$PATHTR/FV3" "$APP" "$COMPILE_NR" 2>&1 | tee "${LOG_DIR}/compile_${COMPILE_NR}.log"
         echo " bash NEMSAppBuilder is done"
+      fi
+
+      # Set RT_DIR_SUFFIX for REPRO (IPD, CCPP) or PROD (CCPP) runs
+      if [[ $APP = standaloneFV3_repro || $APP = CCPP_repro ]]; then
+        RT_DIR_SUFFIX="_repro"
+      elif [[ $APP = CCPP ]]; then
+        RT_DIR_SUFFIX="_ccpp"
+      else
+        RT_DIR_SUFFIX=""
       fi
 
       unset APP
@@ -517,6 +535,7 @@ EOF
       export PATHTR=${PATHTR}
       export NEW_BASELINE=${NEW_BASELINE}
       export CREATE_BASELINE=${CREATE_BASELINE}
+      export RT_DIR_SUFFIX=${RT_DIR_SUFFIX}
       export SCHEDULER=${SCHEDULER}
       export ACCNR=${ACCNR}
       export QUEUE=${QUEUE}
@@ -524,6 +543,23 @@ EOF
       export ROCOTO=${ROCOTO}
       export LOG_DIR=${LOG_DIR}
 EOF
+
+# DH*
+      echo "export MACHINE_ID=${MACHINE_ID}"
+      echo "export RTPWD=${RTPWD}"
+      echo "export PATHRT=${PATHRT}"
+      echo "export PATHTR=${PATHTR}"
+      echo "export NEW_BASELINE=${NEW_BASELINE}"
+      echo "export CREATE_BASELINE=${CREATE_BASELINE}"
+      echo "export RT_DIR_SUFFIX=${RT_DIR_SUFFIX}"
+      echo "export SCHEDULER=${SCHEDULER}"
+      echo "export ACCNR=${ACCNR}"
+      echo "export QUEUE=${QUEUE}"
+      echo "export PARTITION=${PARTITION}"
+      echo "export ROCOTO=${ROCOTO}"
+      echo "export LOG_DIR=${LOG_DIR}"
+      #exit -1
+# *DH
 
       if [[ $ROCOTO == true ]]; then
         rocoto_create_run_task
