@@ -29,7 +29,7 @@ JBNME=$(basename $RUNDIR_ROOT)_${TEST_NR}
 export JBNME
 
 export FV3X=fv3_${COMPILE_NR}.exe
-export REGRESSIONTEST_LOG=${LOG_DIR}/rt_${TEST_NR}_${TEST_NAME}.log
+export REGRESSIONTEST_LOG=${LOG_DIR}/rt_${TEST_NR}_${TEST_NAME}${RT_NAME_SUFFIX}.log
 
 # Submit the actual test run script
 echo "Test ${TEST_NR} ${TEST_NAME} ${TEST_DESCR}"

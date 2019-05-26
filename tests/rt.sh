@@ -459,10 +459,13 @@ while read -r line; do
       # Set RT_DIR_SUFFIX for REPRO (IPD, CCPP) or PROD (CCPP) runs
       if [[ ${NEMS_VER^^} =~ "REPRO=Y" ]]; then
         RT_DIR_SUFFIX="_repro"
+        RT_NAME_SUFFIX="_repro"
       elif [[ ${NEMS_VER^^} =~ "CCPP=Y" ]]; then
         RT_DIR_SUFFIX="_ccpp"
+        RT_NAME_SUFFIX="_prod"
       else
         RT_DIR_SUFFIX=""
+        RT_NAME_SUFFIX=""
       fi
 
     continue
@@ -494,10 +497,13 @@ while read -r line; do
       # Set RT_DIR_SUFFIX for REPRO (IPD, CCPP) or PROD (CCPP) runs
       if [[ $APP = standaloneFV3_repro || $APP = CCPP_repro ]]; then
         RT_DIR_SUFFIX="_repro"
+        RT_NAME_SUFFIX="_repro"
       elif [[ $APP = CCPP ]]; then
         RT_DIR_SUFFIX="_ccpp"
+        RT_NAME_SUFFIX="_prod"
       else
         RT_DIR_SUFFIX=""
+        RT_NAME_SUFFIX=""
       fi
 
       unset APP
@@ -536,6 +542,7 @@ EOF
       export NEW_BASELINE=${NEW_BASELINE}
       export CREATE_BASELINE=${CREATE_BASELINE}
       export RT_DIR_SUFFIX=${RT_DIR_SUFFIX}
+      export RT_NAME_SUFFIX=${RT_NAME_SUFFIX}
       export SCHEDULER=${SCHEDULER}
       export ACCNR=${ACCNR}
       export QUEUE=${QUEUE}
@@ -544,29 +551,12 @@ EOF
       export LOG_DIR=${LOG_DIR}
 EOF
 
-# DH*
-      echo "export MACHINE_ID=${MACHINE_ID}"
-      echo "export RTPWD=${RTPWD}"
-      echo "export PATHRT=${PATHRT}"
-      echo "export PATHTR=${PATHTR}"
-      echo "export NEW_BASELINE=${NEW_BASELINE}"
-      echo "export CREATE_BASELINE=${CREATE_BASELINE}"
-      echo "export RT_DIR_SUFFIX=${RT_DIR_SUFFIX}"
-      echo "export SCHEDULER=${SCHEDULER}"
-      echo "export ACCNR=${ACCNR}"
-      echo "export QUEUE=${QUEUE}"
-      echo "export PARTITION=${PARTITION}"
-      echo "export ROCOTO=${ROCOTO}"
-      echo "export LOG_DIR=${LOG_DIR}"
-      #exit -1
-# *DH
-
       if [[ $ROCOTO == true ]]; then
         rocoto_create_run_task
       elif [[ $ECFLOW == true ]]; then
         ecflow_create_run_task
       else
-        ./run_test.sh ${PATHRT} ${RUNDIR_ROOT} ${TEST_NAME} ${TEST_NR} ${COMPILE_NR} > ${LOG_DIR}/run_${TEST_NAME}.log 2>&1
+        ./run_test.sh ${PATHRT} ${RUNDIR_ROOT} ${TEST_NAME} ${TEST_NR} ${COMPILE_NR} > ${LOG_DIR}/run_${TEST_NAME}${RT_NAME_SUFFIX}.log 2>&1
       fi
     )
 
