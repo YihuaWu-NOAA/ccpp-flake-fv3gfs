@@ -25,9 +25,9 @@ source tests/$TEST_NAME
 # tests that try to copy input data from CNTL_DIR
 export INPUT_DIR=${CNTL_DIR}
 # *DH 20190528
-# Append RT_SUFFIX to RUNDIR and CNTL_DIR
+# Append RT_SUFFIX to RUNDIR, and BL_SUFFIX to CNTL_DIR
 export RUNDIR=${RUNDIR_ROOT}/${TEST_NAME}${RT_SUFFIX}
-export CNTL_DIR=${CNTL_DIR}${RT_SUFFIX}
+export CNTL_DIR=${CNTL_DIR}${BL_SUFFIX}
 
 JBNME=$(basename $RUNDIR_ROOT)_${TEST_NR}
 export JBNME

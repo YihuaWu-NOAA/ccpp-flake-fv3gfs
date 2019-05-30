@@ -456,13 +456,17 @@ while read -r line; do
         echo " bash Compile is done"
       fi
 
-      # Set RT_SUFFIX for REPRO (IPD, CCPP) or PROD (CCPP) runs
+      # Set RT_SUFFIX (regression test run directories and log files) and BL_SUFFIX
+      # (regression test baseline directories) for REPRO (IPD, CCPP) or PROD (CCPP) runs
       if [[ ${NEMS_VER^^} =~ "REPRO=Y" ]]; then
         RT_SUFFIX="_repro"
+        BL_SUFFIX="_repro"
       elif [[ ${NEMS_VER^^} =~ "CCPP=Y" ]]; then
         RT_SUFFIX="_prod"
+        BL_SUFFIX="_ccpp"
       else
         RT_SUFFIX=""
+        BL_SUFFIX=""
       fi
 
     continue
@@ -491,13 +495,17 @@ while read -r line; do
         echo " bash NEMSAppBuilder is done"
       fi
 
-      # Set RT_SUFFIX for REPRO (IPD, CCPP) or PROD (CCPP) runs
-      if [[ $APP = standaloneFV3_repro || $APP = CCPP_repro ]]; then
+      # Set RT_SUFFIX (regression test run directories and log files) and BL_SUFFIX
+      # (regression test baseline directories) for REPRO (IPD, CCPP) or PROD (CCPP) runs
+      if [[ ${NEMS_VER^^} =~ "REPRO=Y" ]]; then
         RT_SUFFIX="_repro"
-      elif [[ $APP = CCPP ]]; then
+        BL_SUFFIX="_repro"
+      elif [[ ${NEMS_VER^^} =~ "CCPP=Y" ]]; then
         RT_SUFFIX="_prod"
+        BL_SUFFIX="_ccpp"
       else
         RT_SUFFIX=""
+        BL_SUFFIX=""
       fi
 
       unset APP
@@ -536,6 +544,7 @@ EOF
       export NEW_BASELINE=${NEW_BASELINE}
       export CREATE_BASELINE=${CREATE_BASELINE}
       export RT_SUFFIX=${RT_SUFFIX}
+      export BL_SUFFIX=${BL_SUFFIX}
       export SCHEDULER=${SCHEDULER}
       export ACCNR=${ACCNR}
       export QUEUE=${QUEUE}
