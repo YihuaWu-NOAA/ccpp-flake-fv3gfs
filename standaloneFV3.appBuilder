@@ -4,5 +4,7 @@
 
 COMPONENTS=( FMS FV3 )
 
+FV3_MAKEOPT="INTEL18=Y"
+
 # The modules.nems and configure.nems are selected by
 # conf/before_appbuilder_file.mk.

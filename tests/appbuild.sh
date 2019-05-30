@@ -34,7 +34,7 @@ if [[ $APP = CCPP_static_trans ]]; then
     echo "ERROR, appbuild.sh with APP CCPP_static_trans not configured for build target ${MACHINE_ID}"
     exit 1
   fi
-elif [[ $APP = CCPP || $APP = CCPP_repro || $APP = standaloneFV3_repro ]]; then
+elif [[ $APP = CCPP || $APP = CCPP_repro || $APP = standaloneFV3_repro || $APP = standaloneFV3 ]]; then
   if [[ $MACHINE_ID = theia.intel ]]; then
     echo "Move original modulefile modulefiles/theia.intel/fv3 aside and replace with modulefiles/theia.intel/fv3.intel-18.0.1.163"
     cd modulefiles/theia.intel
@@ -54,7 +54,7 @@ set -e
 cd ${PATHTR}/..
 
 # Revert replicating logic in conf/before_components
-if [[ $APP = CCPP || $APP = CCPP_static_trans || $APP = CCPP_repro || $APP = standaloneFV3_repro ]]; then
+if [[ $APP = CCPP || $APP = CCPP_static_trans || $APP = CCPP_repro || $APP = standaloneFV3_repro || $APP = standaloneFV3 ]]; then
   if [[ $MACHINE_ID = theia.intel ]]; then
     echo "Reinstantiate original modulefile modulefiles/theia.intel/fv3"
     cd modulefiles/theia.intel
