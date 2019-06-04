@@ -445,9 +445,11 @@ while read -r line; do
       NEMS_VER=$(echo $line | cut -d'|' -f2 | sed -e 's/^ *//' -e 's/ *$//')
       SET=$(     echo $line | cut -d'|' -f3)
       MACHINES=$(echo $line | cut -d'|' -f4 | sed -e 's/^ *//' -e 's/ *$//')
+      CB=$(      echo $line | cut -d'|' -f5)
 
       [[ $SET_ID != ' ' && $SET != *${SET_ID}* ]] && continue
       [[ $MACHINES != ' ' && $MACHINES != "${MACHINE_ID}" ]] && continue
+      [[ $CREATE_BASELINE == true && $CB != *fv3* ]] && continue
 
       COMPILE_NR_DEP=${COMPILE_NR}
       (( COMPILE_NR += 1 ))
@@ -486,9 +488,11 @@ while read -r line; do
       APP=$(echo $line | cut -d'|' -f2 | sed -e 's/^ *//' -e 's/ *$//')
       SET=$(     echo $line | cut -d'|' -f3)
       MACHINES=$(echo $line | cut -d'|' -f4 | sed -e 's/^ *//' -e 's/ *$//')
+      CB=$(      echo $line | cut -d'|' -f5)
 
       [[ $SET_ID != ' ' && $SET != *${SET_ID}* ]] && continue
       [[ $MACHINES != ' ' && $MACHINES != "${MACHINE_ID}" ]] && continue
+      [[ $CREATE_BASELINE == true && $CB != *fv3* ]] && continue
 
       COMPILE_NR_DEP=${COMPILE_NR}
       (( COMPILE_NR += 1 ))
