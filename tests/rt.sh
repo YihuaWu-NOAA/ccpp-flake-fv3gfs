@@ -142,8 +142,14 @@ elif [[ $MACHINE_ID = gaea.* ]]; then
   PARTITION=c4
   STMP=/lustre/f2/scratch
   PTMP=/lustre/f2/scratch
-  SCHEDULER=moab
-  cp fv3_conf/fv3_msub.IN_gaea fv3_conf/fv3_msub.IN
+
+  # uncomment after SLURM becomes default scheduler on Gaea
+  SCHEDULER=slurm
+  cp fv3_conf/fv3_slurm.IN_gaea fv3_conf/fv3_slurm.IN
+
+  # temporary. while we transition from Moab/Torque to SLURM
+  #SCHEDULER=moab
+  #cp fv3_conf/fv3_msub.IN_gaea fv3_conf/fv3_msub.IN
 
 elif [[ $MACHINE_ID = theia.* ]]; then
 
