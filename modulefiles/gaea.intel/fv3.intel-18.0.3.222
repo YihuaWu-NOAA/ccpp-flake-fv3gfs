@@ -1,12 +1,12 @@
 #%Module######################################################################
 ##
-##    NEMS FV3 Prerequisites: Gaea
+##    NEMS FV3 Prerequisites: Gaea/Intel
 
 proc ModulesHelp {} {
-  puts stderr "\tcit - loads modules required for building and running FV3 under NEMS on Gaea"
+  puts stderr "\tcit - loads modules required for building and running FV3 under NEMS on Gaea/Intel"
 }
 
-module-whatis "loads NEMS FV3 prerequisites for Theia"
+module-whatis "loads NEMS FV3 prerequisites for Gaea/Intel"
 
 # NOTE: the "module purge" and loading of the module command are
 # handled by the module-setup.sh (or .csh) script.
