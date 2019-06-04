@@ -13,7 +13,6 @@ module load impi/2018.4.274
 module load szip/2.1
 module load hdf5/1.8.9
 module load netcdf/4.2.1.1
-module load slurm/18.08.6
 module load contrib anaconda
 
 ##
