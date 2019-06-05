@@ -59,6 +59,14 @@ case $(hostname -f) in
   gaea14)                  MACHINE_ID=gaea ;; ### gaea14
   gaea15)                  MACHINE_ID=gaea ;; ### gaea15
   gaea16)                  MACHINE_ID=gaea ;; ### gaea16
+  gaea9.ncrc.gov)          MACHINE_ID=gaea ;; ### gaea9
+  gaea10.ncrc.gov)         MACHINE_ID=gaea ;; ### gaea10
+  gaea11.ncrc.gov)         MACHINE_ID=gaea ;; ### gaea11
+  gaea12.ncrc.gov)         MACHINE_ID=gaea ;; ### gaea12
+  gaea13.ncrc.gov)         MACHINE_ID=gaea ;; ### gaea13
+  gaea14.ncrc.gov)         MACHINE_ID=gaea ;; ### gaea14
+  gaea15.ncrc.gov)         MACHINE_ID=gaea ;; ### gaea15
+  gaea16.ncrc.gov)         MACHINE_ID=gaea ;; ### gaea16
 
   tfe01)                   MACHINE_ID=theia ;; ### theia01
   tfe02)                   MACHINE_ID=theia ;; ### theia02

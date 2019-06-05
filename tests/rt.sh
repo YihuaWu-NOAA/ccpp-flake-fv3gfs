@@ -142,8 +142,14 @@ elif [[ $MACHINE_ID = gaea.* ]]; then
   PARTITION=c4
   STMP=/lustre/f2/scratch
   PTMP=/lustre/f2/scratch
-  SCHEDULER=moab
-  cp fv3_conf/fv3_msub.IN_gaea fv3_conf/fv3_msub.IN
+
+  # uncomment after SLURM becomes default scheduler on Gaea
+  SCHEDULER=slurm
+  cp fv3_conf/fv3_slurm.IN_gaea fv3_conf/fv3_slurm.IN
+
+  # temporary. while we transition from Moab/Torque to SLURM
+  #SCHEDULER=moab
+  #cp fv3_conf/fv3_msub.IN_gaea fv3_conf/fv3_msub.IN
 
 elif [[ $MACHINE_ID = theia.* ]]; then
 
@@ -439,9 +445,11 @@ while read -r line; do
       NEMS_VER=$(echo $line | cut -d'|' -f2 | sed -e 's/^ *//' -e 's/ *$//')
       SET=$(     echo $line | cut -d'|' -f3)
       MACHINES=$(echo $line | cut -d'|' -f4 | sed -e 's/^ *//' -e 's/ *$//')
+      CB=$(      echo $line | cut -d'|' -f5)
 
       [[ $SET_ID != ' ' && $SET != *${SET_ID}* ]] && continue
       [[ $MACHINES != ' ' && $MACHINES != "${MACHINE_ID}" ]] && continue
+      [[ $CREATE_BASELINE == true && $CB != *fv3* ]] && continue
 
       COMPILE_NR_DEP=${COMPILE_NR}
       (( COMPILE_NR += 1 ))
@@ -480,9 +488,11 @@ while read -r line; do
       APP=$(echo $line | cut -d'|' -f2 | sed -e 's/^ *//' -e 's/ *$//')
       SET=$(     echo $line | cut -d'|' -f3)
       MACHINES=$(echo $line | cut -d'|' -f4 | sed -e 's/^ *//' -e 's/ *$//')
+      CB=$(      echo $line | cut -d'|' -f5)
 
       [[ $SET_ID != ' ' && $SET != *${SET_ID}* ]] && continue
       [[ $MACHINES != ' ' && $MACHINES != "${MACHINE_ID}" ]] && continue
+      [[ $CREATE_BASELINE == true && $CB != *fv3* ]] && continue
 
       COMPILE_NR_DEP=${COMPILE_NR}
       (( COMPILE_NR += 1 ))
