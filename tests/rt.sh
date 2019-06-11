@@ -505,7 +505,7 @@ while read -r line; do
           echo test  > "${LOG_DIR}/compile_${COMPILE_NR}.log" 2>&1
           test -s ./appbuild.sh
           test -x ./appbuild.sh
-        MACHINE_ID=${MACHINE_ID} ./appbuild.sh "$PATHTR/FV3" "$APP" "$COMPILE_NR" 2>&1 | tee "${LOG_DIR}/compile_${COMPILE_NR}.log"
+        MACHINE_ID=${MACHINE_ID} ./appbuild.sh "$PATHTR/FV3" "$APP" "$COMPILE_NR" > ${LOG_DIR}/compile_${COMPILE_NR}.log 2>&1
         echo " bash NEMSAppBuilder is done"
       fi
 

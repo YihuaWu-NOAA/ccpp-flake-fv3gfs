@@ -23,6 +23,10 @@ export MPI_TYPE_DEPTH=20
 export OMP_STACKSIZE=512M
 export OMP_NUM_THREADS=@[THRD]
 export ESMF_RUNTIME_COMPLIANCECHECK=OFF:depth=4
+# To avoid errors of kind
+#   Error attaching to shared memory object in shm_open: Permission denied (err=9)
+#   MPI startup(): tmi fabric is not available and fallback fabric is not enabled
+export PSM_RANKS_PER_CONTEXT=4
 
 # Avoid job errors because of filesystem synchronization delays
 sync && sleep 1
