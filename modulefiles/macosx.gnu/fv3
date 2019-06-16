@@ -43,7 +43,7 @@ fi
 ##
 ## use pre-compiled EMSF library for above compiler / MPI combination
 ##
-ESMF_VERSION=esmf-7.1.0r
+ESMF_VERSION=esmf-8.0.0_bs21
 export ESMF_DIR=/usr/local/${ESMF_VERSION}/
 export ESMF_INC=/usr/local/${ESMF_VERSION}/include
 export ESMF_BIN=/usr/local/${ESMF_VERSION}/bin/binO/Darwin.gfortranclang.64.mpich.default

@@ -111,6 +111,11 @@ export LHEATSTRG=.F.
 export LGFDLMPRAD=.F.
 export EFFR_IN=.F.
 
+# GWD
+export LDIAG_UGWP=.F.
+export DO_UGWP=.F.
+export DO_TOFD=.F.
+
 # PBL
 export SATMEDMF=.F.
 export HYBEDMF=.T.
