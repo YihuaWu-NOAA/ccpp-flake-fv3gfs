@@ -31,7 +31,7 @@ SCHEME_FILES_DEPENDENCIES = [
     'ccpp/physics/physics/date_def.f',
     'ccpp/physics/physics/funcphys.f90',
     'ccpp/physics/physics/gcycle.F90',
-    'ccpp/physics/physics/gfs_phy_tracer_config.f',
+    'ccpp/physics/physics/gfs_phy_tracer_config.F',
     'ccpp/physics/physics/gocart_tracer_config_stub.f',
     'ccpp/physics/physics/h2o_def.f',
     'ccpp/physics/physics/h2ointerp.f90',

@@ -1,8 +1,8 @@
-# Dom Heinzeller (dom.heinzeller@noaa.gov), 11/05/2018
+# Dom Heinzeller (dom.heinzeller@noaa.gov), 06/14/2019
 
-In order to build and run the FV3 trunk (November 2018) with possible CCPP extensions by GMTB on Mac OS X,
+In order to build and run the FV3 trunk (June 2019) with possible CCPP extensions by GMTB on macOS,
 the following installation steps are recommended. The version numbers for the "brew" correspond to the default versions
-in April/May 2018 and will change to newer versions in the future. Unless problems occur during the manual builds in
+in November 2018 and will change to newer versions in the future. Unless problems occur during the manual builds in
 steps 12-15, these differences can be ignored. It is also assumed that the bash shell is used in the following.
 
 1. Create a shell setup script ~/setenv_develop.sh to set the required paths for compiling. Contents:
@@ -36,22 +36,22 @@ steps 12-15, these differences can be ignored. It is also assumed that the bash 
     sudo mkdir /usr/local/src
     sudo chown YOUR_USERNAME /usr/local/src
     sudo chgrp YOUR_GROUPNAME /usr/local/src
-    # /usr/local/esmf-7.1.0r
-    sudo mkdir /usr/local/esmf-7.1.0r
-    sudo chown YOUR_USERNAME /usr/local/esmf-7.1.0r
-    sudo chgrp YOUR_GROUPNAME /usr/local/esmf-7.1.0r
+    # /usr/local/esmf-8.0.0_bs21
+    sudo mkdir /usr/local/esmf-8.0.0_bs21
+    sudo chown YOUR_USERNAME /usr/local/esmf-8.0.0_bs21
+    sudo chgrp YOUR_GROUPNAME /usr/local/esmf-8.0.0_bs21
     # /usr/local/NCEPlibs-20180401
     sudo mkdir /usr/local/NCEPlibs-20180401
     sudo chown YOUR_USERNAME /usr/local/NCEPlibs-20180401
     sudo chgrp YOUR_GROUPNAME /usr/local/NCEPlibs-20180401
 
-4. Install gcc-7.2.0, gfortran-7.2.0
+4. Install gcc-8.1.0, gfortran-8.1.0
     brew install gcc --verbose --without-multilib
 
-5. Install clang-5.0.0 with openmp support
+5. Install clang-6.0.0 with openmp support
     brew install llvm
     cd /usr/local/Cellar/llvm
-    ln -sf 5.0.0/lib .
+    ln -sf 6.0.0/lib .
 
 6. Install mpich-3.2.1
     brew install mpich
@@ -62,7 +62,7 @@ steps 12-15, these differences can be ignored. It is also assumed that the bash 
 8. Install libpng-1.6.34
     brew install libpng
 
-9. Install udunits-2.2.25
+9. Install udunits-2.2.26
     brew install udunits
 
 10. Install ncview-2.1.7
@@ -71,16 +71,16 @@ steps 12-15, these differences can be ignored. It is also assumed that the bash 
 11. Source the setenv_develop.sh script
     . ~/setenv_develop.sh
 
-12. Install ESMF 7.1.0r
+12. Install ESMF 8.0.0_bs21
 
-    # Download esmf_7_1_0r_src.tar.gz from https://www.earthsystemcog.org/projects/esmf/download/ to /usr/local/src
+    # Download esmf-8.0.0_bs21.tar.gz from https://www.earthsystemcog.org/projects/esmf/download/ to /usr/local/src
 
     cd /usr/local/src
-    tar -xvf esmf_7_1_0r_src.tar.gz
-    cd esmf
+    tar -xvf esmf-8.0.0_bs21.tar.gz
+    cd esmf-8.0.0_bs21
     export NETCDF=/usr/local
     export ESMF_DIR=`pwd`
-    export ESMF_INSTALL_PREFIX=/usr/local/esmf-7.1.0r
+    export ESMF_INSTALL_PREFIX=/usr/local/esmf-8.0.0_bs21
     export ESMF_COMPILER=gfortranclang
     export ESMF_CXXCOMPILER=mpicxx
     export ESMF_CXXLINKER=mpicxx
@@ -96,7 +96,7 @@ steps 12-15, these differences can be ignored. It is also assumed that the bash 
     export ESMF_NETCDF=split
     export LDFLAGS="-Wl,-no_compact_unwind"
     make info 2>&1 | tee log.info
-    # Ignore warnings of type "ld: warning: could not create compact unwind for ... stack subq instruction is too different from dwarf stack size"
+    # Ignore warnings of type "ld: warning: could not create compact unwind for ... "
     make 2>&1 | tee log.make
     make check 2>&1 | tee log.check
     # Found 40 multi-processor system tests, 40 passed and 0 failed.
