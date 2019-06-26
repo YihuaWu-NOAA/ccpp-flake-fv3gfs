@@ -45,14 +45,6 @@ prepend-path PATH            /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/i
 prepend-path LD_LIBRARY_PATH /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150/lib
 
 ##
-## SIONlib library
-##
-set    SIONLIB     /scratch4/BMC/gmtb/sionlib-1.7.2/intel-18.1.163/impi-5.1.2.150
-setenv SIONLIB     ${SIONLIB}
-setenv SIONLIB_INC "-I${SIONLIB}/include -I${SIONLIB}/include/mod_64"
-setenv SIONLIB_LIB "-L${SIONLIB}/lib -lsionmpi_f90_64 -lsionser_f90_64 -lsionmpi_64 -lsiongen_64 -lsionser_64 -lsioncom_64 -lsioncom_64_lock_none"
-
-##
 ## Set compiler environment variables for CCPP
 ##
 setenv CC  mpiicc
