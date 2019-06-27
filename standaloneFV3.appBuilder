@@ -4,7 +4,7 @@
 
 COMPONENTS=( FMS FV3 )
 
-# DH* uncomment this once Intel 18 is standard on Theia,
+# DH* uncomment or remove this once Intel 18 is standard on Theia,
 # then remove standaloneFV3_intel18.appBuilder, update
 # entries in tests/rt*.conf to use standaloneFV3.appBuilder
 # instead of standaloneFV3_intel18.appBuilder, and check
