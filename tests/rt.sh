@@ -176,13 +176,9 @@ elif [[ $MACHINE_ID = theia.* ]]; then
   STMP=$dprefix/stmp4
   PTMP=$dprefix/stmp3
 
-  # uncomment after SLURM becomes default scheduler on Theia
-   SCHEDULER=slurm
-   cp fv3_conf/fv3_slurm.IN_theia fv3_conf/fv3_slurm.IN
-
-  # temporary. while we transition from Moab/Torque to SLURM
-  #SCHEDULER=pbs
-  #cp fv3_conf/fv3_qsub.IN_theia fv3_conf/fv3_qsub.IN
+  # default scheduler on Theia
+  SCHEDULER=slurm
+  cp fv3_conf/fv3_slurm.IN_theia fv3_conf/fv3_slurm.IN
 
 elif [[ $MACHINE_ID = jet.* ]]; then
 
