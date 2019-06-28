@@ -20,11 +20,9 @@ cd ${PATHRT}
 source default_vars.sh
 source tests/$TEST_NAME
 
-# DH* 20190528 WORKAROUND
 # Save original CNTL_DIR name as INPUT_DIR for regression
 # tests that try to copy input data from CNTL_DIR
 export INPUT_DIR=${CNTL_DIR}
-# *DH 20190528
 # Append RT_SUFFIX to RUNDIR, and BL_SUFFIX to CNTL_DIR
 export RUNDIR=${RUNDIR_ROOT}/${TEST_NAME}${RT_SUFFIX}
 export CNTL_DIR=${CNTL_DIR}${BL_SUFFIX}

@@ -32,7 +32,6 @@ AVX2 = Y
 HYDRO = N
 CCPP = N
 STATIC = N
-SION = N
 DYN32 = N
 
 include       $(ESMFMKFILE)
@@ -171,12 +170,6 @@ LDFLAGS += -L$(PATH_CCPP)/lib -lccpp
 endif
 endif
 
-ifeq ($(SION),Y)
-CPPDEFS += -DSION
-CFLAGS += $(SIONLIB_INC)
-FFLAGS += $(SIONLIB_INC)
-endif
-
 ifneq ($(findstring netcdf/4,$(LOADEDMODULES)),)
   LIBS += -lnetcdff -lnetcdf -L$(HDF5)/lib -lhdf5_hl -lhdf5 -lz
 else
@@ -188,5 +181,5 @@ LDFLAGS += $(LIBS)
 ifdef InNemsMakefile
 FFLAGS += $(ESMF_INC)
 CPPFLAGS += -traditional
-EXTLIBS = $(NCEPLIBS) $(ESMF_LIB) $(LDFLAGS) $(SIONLIB_LIB)
+EXTLIBS = $(NCEPLIBS) $(ESMF_LIB) $(LDFLAGS)
 endif

@@ -58,14 +58,6 @@ prepend-path PATH            /scratch4/BMC/gmtb/esmf-8.0.0_bs21/gnu-6.2.0/mpich-
 prepend-path LD_LIBRARY_PATH /scratch4/BMC/gmtb/esmf-8.0.0_bs21/gnu-6.2.0/mpich-3.2.1/lib
 
 ##
-## SIONlib library
-##
-set    SIONLIB     /scratch4/BMC/gmtb/sionlib-1.7.2/gnu-6.2.0/mpich-3.2.1
-setenv SIONLIB     ${SIONLIB}
-setenv SIONLIB_INC "-I${SIONLIB}/include -I${SIONLIB}/include/mod_64"
-setenv SIONLIB_LIB "-L${SIONLIB}/lib -lsionmpi_f90_64 -lsionser_f90_64 -lsionmpi_64 -lsiongen_64 -lsionser_64 -lsioncom_64 -lsioncom_64_lock_none"
-
-##
 ## Set compiler environment variables for CCPP
 ##
 setenv CC  mpicc

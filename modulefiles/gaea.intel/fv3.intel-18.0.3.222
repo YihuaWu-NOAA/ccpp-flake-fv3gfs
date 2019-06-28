@@ -44,14 +44,6 @@ setenv W3EMC_LIBd   ${NCEPLIBS_DIR}/lib/libw3emc_d.a
 setenv W3NCO_LIBd   ${NCEPLIBS_DIR}/lib/libw3nco_d.a
 
 ##
-## SIONlib library
-##
-set    SIONLIB     /lustre/f2/dev/Dom.Heinzeller/sionlib-1.7.2/intel-18.0.3.222/cray-mpich-7.4.0
-setenv SIONLIB     ${SIONLIB}
-setenv SIONLIB_INC "-I${SIONLIB}/include -I${SIONLIB}/include/mod_64"
-setenv SIONLIB_LIB "-L${SIONLIB}/lib -lsionmpi_f90_64 -lsionser_f90_64 -lsionmpi_64 -lsiongen_64 -lsionser_64 -lsioncom_64 -lsioncom_64_lock_none"
-
-##
 ## use pre-compiled EMSF library for above compiler / MPI combination
 ##
 setenv ESMF_DIR              /lustre/f2/dev/Dom.Heinzeller/esmf-7.1.0r/intel-18.0.3.222/cray-mpich-7.4.0
