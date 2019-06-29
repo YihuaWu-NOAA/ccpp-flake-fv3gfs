@@ -22,45 +22,11 @@ cd ${PATHTR}/..
 rm -f $PATHTR/../NEMS/exe/NEMS.x
 rm -f $PATHTR/../NEMS/src/conf/modules.nems
 
-# Replicate logic in conf/before_components
-# DH* temporary, use second line once standaloneFV3 is using Intel18 if this logic is still required
-if [[ $APP = CCPP || $APP = CCPP_repro || $APP = standaloneFV3_repro || $APP = standaloneFV3_intel18 ]]; then
-#if [[ $APP = CCPP || $APP = CCPP_repro || $APP = standaloneFV3_repro || $APP = standaloneFV3 ]]; then
-# *DH
-  if [[ $MACHINE_ID = theia.intel ]]; then
-    echo "Move original modulefile modulefiles/theia.intel/fv3 aside and replace with modulefiles/theia.intel/fv3.intel-18.0.1.163"
-    cd modulefiles/theia.intel
-    mv -v fv3 fv3.original
-    ln -svf fv3.intel-18.0.1.163 fv3
-    cd ../..
-  else
-    echo "ERROR, appbuild.sh with APPs CCPP, CCPP_repro, standaloneFV3_repro not configured for build target ${MACHINE_ID}"
-    exit 1
-  fi
-fi
-
 set +e
 ./NEMS/NEMSAppBuilder app="$APP"
 RC=$?
 set -e
 cd ${PATHTR}/..
-
-# Revert replicating logic in conf/before_components
-# DH* temporary, use second line once standaloneFV3 is using Intel18 if this logic is still required
-if [[ $APP = CCPP || $APP = CCPP_repro || $APP = standaloneFV3_repro || $APP = standaloneFV3_intel18 ]]; then
-#if [[ $APP = CCPP || $APP = CCPP_repro || $APP = standaloneFV3_repro || $APP = standaloneFV3 ]]; then
-# *DH
-  if [[ $MACHINE_ID = theia.intel ]]; then
-    echo "Reinstantiate original modulefile modulefiles/theia.intel/fv3"
-    cd modulefiles/theia.intel
-    rm -v fv3
-    mv -v fv3.original fv3
-    cd ../..
-  else
-    echo "ERROR, appbuild.sh with APPs CCPP, CCPP_static_trans, CCPP_repro, standaloneFV3_repro not configured for build target ${MACHINE_ID}"
-    exit 1
-  fi
-fi
 
 if [[ $RC -ne 0 ]]; then
   echo "ERROR in './NEMS/NEMSAppBuilder app=$APP'"

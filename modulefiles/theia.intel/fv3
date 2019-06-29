@@ -15,27 +15,34 @@ module-whatis "loads NEMS FV3 prerequisites for Theia/Intel"
 ## load programming environment
 ## this typically includes compiler, MPI and job scheduler
 ##
-module load intel/15.1.133
-module load impi/5.1.1.109
+module load intel/18.0.1.163
+module load impi/5.1.2.150
 module load netcdf/4.3.0
-module load pnetcdf
+module load pnetcdf/1.5.0-impi
 
 ##
-## load nwprod libraries
+## NCEP libraries (download and build manually for the time being; https://github.com/NCAR/NCEPlibs)
 ##
-module use -a /scratch3/NCEPDEV/nwprod/lib/modulefiles
-module load bacio/v2.0.1
-module load sp/v2.0.2
-module load ip/v2.0.0
-module load w3nco/v2.0.6
-module load w3emc/v2.0.5
-module load nemsio/v2.2.3
+set NCEPLIBS_DIR /scratch4/home/Dom.Heinzeller/NEMSfv3gfs_vlab_portability/NCEPlibs-intel-18.1.163-20181105
+setenv NCEPLIBS_DIR ${NCEPLIBS_DIR}
+setenv NEMSIO_INC   ${NCEPLIBS_DIR}/include
+setenv NEMSIO_LIB   ${NCEPLIBS_DIR}/lib/libnemsio_d.a
+setenv BACIO_LIB4   ${NCEPLIBS_DIR}/lib/libbacio_4.a
+setenv SP_LIBd      ${NCEPLIBS_DIR}/lib/libsp_v2.0.2_d.a
+setenv W3EMC_LIBd   ${NCEPLIBS_DIR}/lib/libw3emc_d.a
+setenv W3NCO_LIBd   ${NCEPLIBS_DIR}/lib/libw3nco_d.a
 
 ##
-## load ESMF library for above compiler / MPI combination
+## use pre-compiled EMSF library for above compiler / MPI combination
 ##
-module use /scratch4/NCEPDEV/nems/noscrub/emc.nemspara/soft/modulefiles
-module load esmf/8.0.0bs21
+setenv ESMF_DIR              /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150
+setenv ESMF_INC              /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150/include
+setenv ESMF_BIN              /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150/bin
+setenv ESMF_LIB              /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150/lib
+setenv ESMF_MOD              /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150/mod
+setenv ESMFMKFILE            /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150/lib/esmf.mk
+prepend-path PATH            /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150/bin
+prepend-path LD_LIBRARY_PATH /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150/lib
 
 ##
 ## Set compiler environment variables for CCPP
