@@ -6,7 +6,7 @@
 
 export TEST_DESCR="Compare FV3 CCPP GSD results with previous trunk version"
 
-export CNTL_DIR=fv3_ccpp_gsd
+export CNTL_DIR=fv3_gsd
 
 export LIST_FILES="phyf000.tile1.nc \
                    phyf000.tile2.nc \
