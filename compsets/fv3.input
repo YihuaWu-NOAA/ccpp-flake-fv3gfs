@@ -422,7 +422,13 @@ test fv3_ccpp_control: fv3_ccpp_control.exe {
 
     # Use CCPP PROD control directory
     CNTL_NAME='fv3_control_ccpp'
+    COM="@[plat%COMrt]/@[TEST_NAME]"          # Test result area
+    RUNDIR="@[plat%TMPrt]/@[TEST_NAME]"       # Test work area
     CNTL="@[plat%BASELINE]/@[CNTL_NAME]"      # Control baseline area
+    FV3_input_data="@[plat%INPUTS]/FV3_input_data"
+
+    # Set additional suite name variable substitute for input.nml
+    CCPP_SUITE='FV3_GFS_2017'
 
     # The build variable is the fv3.exe or fv3_appbuild.fv3, which
     # provides the path to the build target, md5 sum, and modulefile.
