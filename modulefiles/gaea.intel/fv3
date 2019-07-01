@@ -55,15 +55,5 @@ setenv ESMFMKFILE            /lustre/f2/dev/Dom.Heinzeller/esmf-7.1.0r/intel-18.
 prepend-path PATH            /lustre/f2/dev/Dom.Heinzeller/esmf-7.1.0r/intel-18.0.3.222/cray-mpich-7.4.0/bin
 prepend-path LD_LIBRARY_PATH /lustre/f2/dev/Dom.Heinzeller/esmf-7.1.0r/intel-18.0.3.222/cray-mpich-7.4.0/lib
 
-##
-## Set compiler environment variables for CCPP
-##
-setenv LD  ftn
-setenv CC  cc
-setenv CXX CC
-setenv FC  ftn
-setenv F77 ftn
-setenv F90 ftn
-
 # Needed at runtime:
 module load alps

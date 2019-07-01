@@ -42,13 +42,3 @@ setenv ESMF_MOD              /scratch4/BMC/gmtb/esmf-8.0.0_bs21/pgi-17.7/mvapich
 setenv ESMFMKFILE            /scratch4/BMC/gmtb/esmf-8.0.0_bs21/pgi-17.7/mvapich2-2.1a/lib/esmf.mk
 prepend-path PATH            /scratch4/BMC/gmtb/esmf-8.0.0_bs21/pgi-17.7/mvapich2-2.1a/bin
 prepend-path LD_LIBRARY_PATH /scratch4/BMC/gmtb/esmf-8.0.0_bs21/pgi-17.7/mvapich2-2.1a/lib
-
-##
-## Set compiler environment variables for CCPP
-##
-setenv CPP "mpicc -E"
-setenv CC  mpicc
-setenv CXX mpic++
-setenv FC  mpif90
-setenv F77 mpif77
-setenv F90 mpif90

@@ -39,12 +39,3 @@ setenv ESMF_MOD              ${ESMF_DIR}/mod
 setenv ESMFMKFILE            ${ESMF_DIR}/lib/esmf.mk
 prepend-path PATH            ${ESMF_DIR}/bin
 prepend-path LD_LIBRARY_PATH ${ESMF_DIR}/lib
-
-##
-## Set compiler environment variables for CCPP
-##
-setenv CC  mpiicc
-setenv CXX mpiicpc
-setenv FC  mpiifort
-setenv F77 mpiifort
-setenv F90 mpiifort

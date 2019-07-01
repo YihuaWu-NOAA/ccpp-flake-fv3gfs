@@ -4,7 +4,9 @@ set +x
 set -eu
 
 # List of valid/tested machines
-VALID_MACHINES=( wcoss_cray wcoss_dell_p3 gaea.intel jet.intel theia.intel theia.gnu theia.pgi cheyenne.intel cheyenne.intel-impi cheyenne.gnu cheyenne.pgi endeavor.intel macosx.gnu linux.gnu stampede.intel supermuc_phase2.intel)
+VALID_MACHINES=( wcoss_cray wcoss_dell_p3 gaea.intel jet.intel theia.intel theia.gnu theia.pgi \
+                 cheyenne.intel cheyenne.intel-impi cheyenne.gnu cheyenne.pgi endeavor.intel \
+                 stampede.intel supermuc_phase2.intel macosx.gnu linux.gnu )
 
 ###################################################################################################
 
@@ -76,6 +78,9 @@ readonly clean_before=${5:-YES}
 readonly clean_after=${6:-YES}
 
 checkvalid MACHINE_ID $MACHINE_ID ${VALID_MACHINES[@]}
+
+# Set compilers for cmake
+source ./set_compilers.sh
 
 # Generate CCPP cmake flags from MAKE_OPT
 CCPP_CMAKE_FLAGS="-DCMAKE_INSTALL_PREFIX=${CCPP_DIR} -DNETCDF_DIR=${NETCDF} -DMPI=ON"

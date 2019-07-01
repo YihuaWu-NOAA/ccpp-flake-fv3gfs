@@ -43,13 +43,3 @@ setenv ESMF_MOD              /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/i
 setenv ESMFMKFILE            /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150/lib/esmf.mk
 prepend-path PATH            /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150/bin
 prepend-path LD_LIBRARY_PATH /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150/lib
-
-##
-## Set compiler environment variables for CCPP
-##
-setenv CC  mpiicc
-setenv CXX mpiicpc
-setenv FC  mpiifort
-setenv F77 mpiifort
-setenv F90 mpiifort
-

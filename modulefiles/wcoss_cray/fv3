@@ -53,13 +53,3 @@ module swap pmi pmi/5.0.11
 ## Set path to NETCDF
 ##
 setenv NETCDF /opt/cray/netcdf/4.3.2/INTEL/140
-
-##
-## Set compiler environment variables for CCPP
-##
-setenv LD  ftn
-setenv CC  cc
-setenv CXX CC
-setenv FC  ftn
-setenv F77 ftn
-setenv F90 ftn

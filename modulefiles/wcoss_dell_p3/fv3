@@ -37,12 +37,3 @@ module load crtm/2.2.5
 
 module use /gpfs/dell2/emc/modeling/noscrub/emc.nemspara/soft/modulefiles
 module load esmf/8.0.0bs21
-
-##
-## Set compiler environment variables for CCPP
-##
-setenv CC  mpiicc
-setenv CXX mpiicpc
-setenv FC  mpiifort
-setenv F77 mpiifort
-setenv F90 mpiifort
