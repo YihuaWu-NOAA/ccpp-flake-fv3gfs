@@ -54,7 +54,7 @@ embed bash compile.sh(MAKE_OPTS=' ',BUILD_NR='',fv3,modules,md5) [[[
                 ./compile.sh "@[plat%HOMEnems]/FV3" \
                 $( echo @[plat%MACHINE_ID] | sed 's,\.,_,g' ) \
                 @[MAKE_OPTS] @[BUILD_NR]
-        elif [[ @[plat%MACHINE_ID] == theia.* || @[plat%MACHINE_ID] == cheyenne.* || @[plat%MACHINE_ID] == gaea.* || @[plat%MACHINE_ID] == jet.* ]] ; then
+        elif [[ @[plat%PLATFORM_NAME] == theia* || @[plat%PLATFORM_NAME] == cheyenne* || @[plat%PLATFORM_NAME] == gaea* || @[plat%PLATFORM_NAME] == jet* ]] ; then
             # Don't substitute the . with a _ on Theia/Cheyenne
             echo "DON'T SUBSTITUTE _ for . on @[plat%PLATFORM_NAME]"
             ./compile.sh "@[plat%HOMEnems]/FV3" \
@@ -105,13 +105,8 @@ build fv3_ccpp_control.exe {
 
     # build: script to build the NEMS.x.  For now, this is an embedded
     # bash script.
-    # DH* use 2nd entry instead when testing CCPP Intel18 PROD against its own baseline
     build=compile.sh(fv3="@[target]",modules="@[modules.nems]",md5="@[md5sum]",
                      MAKE_OPTS="\'CCPP=Y STATIC=Y SUITES=FV3_GFS_2017\'")
-    #build=compile.sh(fv3="@[target]",modules="@[modules.nems]",md5="@[md5sum]",
-    #                 MAKE_OPTS="\'INTEL18=Y CCPP=Y STATIC=Y SUITES=FV3_GFS_2017\'")
-    # *DH
-
 }
 
 build fv3_32bit.exe {
@@ -425,16 +420,15 @@ test fv3_ccpp_control: fv3_ccpp_control.exe {
     use fv3_control
     TEST_DESCR="Compare FV3 CCPP control results with previous trunk version"
 
-    # DH* USE INSTEAD OF TRANSITION MODE, WITH INTEL18/PROD
-    ## Use CCPP Intel18 PROD control directory
-    #CNTL_NAME='fv3_control_ccpp'
-    #CNTL="@[plat%BASELINE]/@[CNTL_NAME]"      # Control baseline area
-    # *DH
+    # Use CCPP PROD control directory
+    CNTL_NAME='fv3_control_ccpp'
+    COM="@[plat%COMrt]/@[TEST_NAME]"          # Test result area
+    RUNDIR="@[plat%TMPrt]/@[TEST_NAME]"       # Test work area
+    CNTL="@[plat%BASELINE]/@[CNTL_NAME]"      # Control baseline area
+    FV3_input_data="@[plat%INPUTS]/FV3_input_data"
 
-    DO_SPPT='.F.'
-    DO_SKEB='.F.'
-    DO_SHUM='.F.'
-    DO_SFCPERTS='.F.'
+    # Set additional suite name variable substitute for input.nml
+    CCPP_SUITE='FV3_GFS_2017'
 
     # The build variable is the fv3.exe or fv3_appbuild.fv3, which
     # provides the path to the build target, md5 sum, and modulefile.

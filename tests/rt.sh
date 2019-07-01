@@ -86,6 +86,7 @@ elif [[ $MACHINE_ID = wcoss_cray ]]; then
 
   source $PATHTR/NEMS/src/conf/module-setup.sh.inc
   module load xt-lsfhpc
+  module load python/2.7.14
   module use /usrx/local/emc_rocoto/modulefiles
   module load rocoto/1.2.4-RC3
   ROCOTORUN=$(which rocotorun)
@@ -111,6 +112,7 @@ elif [[ $MACHINE_ID = wcoss_dell_p3 ]]; then
 
   source $PATHTR/NEMS/src/conf/module-setup.sh.inc
   module load lsf/10.1
+  module load python/2.7.14
   module use /usrx/local/dev/emc_rocoto/modulefiles
   module load ruby/2.5.1 rocoto/complete
   ROCOTORUN=$(which rocotorun)
@@ -174,13 +176,9 @@ elif [[ $MACHINE_ID = theia.* ]]; then
   STMP=$dprefix/stmp4
   PTMP=$dprefix/stmp3
 
-  # uncomment after SLURM becomes default scheduler on Theia
-   SCHEDULER=slurm
-   cp fv3_conf/fv3_slurm.IN_theia fv3_conf/fv3_slurm.IN
-
-  # temporary. while we transition from Moab/Torque to SLURM
-  #SCHEDULER=pbs
-  #cp fv3_conf/fv3_qsub.IN_theia fv3_conf/fv3_qsub.IN
+  # default scheduler on Theia
+  SCHEDULER=slurm
+  cp fv3_conf/fv3_slurm.IN_theia fv3_conf/fv3_slurm.IN
 
 elif [[ $MACHINE_ID = jet.* ]]; then
 
