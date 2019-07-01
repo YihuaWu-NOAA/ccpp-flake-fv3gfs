@@ -146,13 +146,9 @@ elif [[ $MACHINE_ID = gaea.* ]]; then
   STMP=/lustre/f2/scratch
   PTMP=/lustre/f2/scratch
 
-  # uncomment after SLURM becomes default scheduler on Gaea
+  # default scheduler on Gaea
   SCHEDULER=slurm
   cp fv3_conf/fv3_slurm.IN_gaea fv3_conf/fv3_slurm.IN
-
-  # temporary. while we transition from Moab/Torque to SLURM
-  #SCHEDULER=moab
-  #cp fv3_conf/fv3_msub.IN_gaea fv3_conf/fv3_msub.IN
 
 elif [[ $MACHINE_ID = theia.* ]]; then
 
@@ -160,7 +156,6 @@ elif [[ $MACHINE_ID = theia.* ]]; then
   # Re-instantiate COMPILER in case it gets deleted by module purge
   COMPILER=${NEMS_COMPILER:-intel}
 
-  module load slurm
   module load rocoto
   ROCOTORUN=$(which rocotorun)
   ROCOTOSTAT=$(which rocotostat)
@@ -479,9 +474,6 @@ while read -r line; do
       elif [[ ${NEMS_VER^^} =~ "CCPP=Y" ]]; then
         RT_SUFFIX="_prod"
         BL_SUFFIX="_ccpp"
-      else
-        RT_SUFFIX=""
-        BL_SUFFIX=""
       fi
 
     continue
@@ -524,9 +516,6 @@ while read -r line; do
       elif [[ ${NEMS_VER^^} =~ "CCPP=Y" ]]; then
         RT_SUFFIX="_prod"
         BL_SUFFIX="_ccpp"
-      else
-        RT_SUFFIX=""
-        BL_SUFFIX=""
       fi
 
       unset APP
@@ -543,6 +532,10 @@ while read -r line; do
     [[ $SET_ID != ' ' && $SET != *${SET_ID}* ]] && continue
     [[ $MACHINES != ' ' && $MACHINES != *${MACHINE_ID}* ]] && continue
     [[ $CREATE_BASELINE == true && $CB != *fv3* ]] && continue
+
+    # Avoid uninitialized RT_SUFFIX/BL_SUFFIX (see definition above)
+    RT_SUFFIX=${RT_SUFFIX:-""}
+    BL_SUFFIX=${BL_SUFFIX:-""}
 
     if [[ $ROCOTO == true && $new_compile == true ]]; then
       new_compile=false
