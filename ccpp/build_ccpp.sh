@@ -86,6 +86,12 @@ source ./set_compilers.sh
 readonly ESMF_LIB=$(cat $ESMFMKFILE | grep -E '^ESMF_LIBSDIR=.+' | cut -d = -f 2)
 echo "Obtained ESMF_LIB=${ESMF_LIB} from ${ESMFMKFILE}"
 
+# Account for inconsistencies in HPC modules: if environment variable
+# NETCDF is undefined, try to set from NETCDF_DIR, NETCDF_ROOT, ...
+if [[ "${MACHINE_ID}" == "wcoss_cray" ]]; then
+  NETCDF=${NETCDF:-${NETCDF_DIR}}
+fi
+
 # Generate CCPP cmake flags from MAKE_OPT
 CCPP_CMAKE_FLAGS="-DCMAKE_INSTALL_PREFIX=${CCPP_DIR} -DNETCDF_DIR=${NETCDF} -DMPI=ON"
 CCPP_MAKE_FLAGS=""
