@@ -40,4 +40,3 @@ module load w3nco/9.9.9
 ##
 module use -a /scratch4/NCEPDEV/nems/noscrub/emc.nemspara/soft/modulefiles
 module load esmf/8.0.0bs21-intel18
-setenv ESMF_LIB /scratch4/NCEPDEV/nems/noscrub/emc.nemspara/soft/esmf/8.0.0bs21-intel18/lib

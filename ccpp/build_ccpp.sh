@@ -12,10 +12,10 @@ VALID_MACHINES=( wcoss_cray wcoss_dell_p3 gaea.intel jet.intel theia.intel theia
 
 function usage   {
   echo "Usage: "
-  echo "build_ccpp.sh MACHINE_ID CCPP_DIR ESMF_MK [ 'MAKE_OPT' ] [ clean_before ] [ clean_after ]"
+  echo "build_ccpp.sh MACHINE_ID CCPP_DIR CCPP_MK [ 'MAKE_OPT' ] [ clean_before ] [ clean_after ]"
   echo "    Where: MACHINE      [required] can be : ${VALID_MACHINES[@]}"
   echo "           CCPP_DIR     [required] is the target installation directory for CCPP"
-  echo "           ESMF_MK      [required] is the location/name of the ESMF makefile fragement"
+  echo "           CCPP_MK      [required] is the location/name of the CCPP ESMF makefile fragment"
   echo "           MAKE_OPT     [optional] can be any of the NEMSfv3gfs MAKE_OPT options,"
   echo "                                   enclosed in a single string; used:"
   echo "                                   SION=Y/N        (default N)"
@@ -72,7 +72,7 @@ if [[ $# -lt 2 ]]; then usage; fi
 
 readonly MACHINE_ID=$1
 readonly CCPP_DIR=$2
-readonly ESMF_MK=$3
+readonly CCPP_MK=$3
 readonly MAKE_OPT=${4:-}
 readonly clean_before=${5:-YES}
 readonly clean_after=${6:-YES}
@@ -81,6 +81,10 @@ checkvalid MACHINE_ID $MACHINE_ID ${VALID_MACHINES[@]}
 
 # Set compilers for cmake
 source ./set_compilers.sh
+
+# Obtain ESMF_LIB from ESMFMKFILE's ESMF_LIBSDIR entry
+readonly ESMF_LIB=$(cat $ESMFMKFILE | grep -E '^ESMF_LIBSDIR=.+' | cut -d = -f 2)
+echo "Obtained ESMF_LIB=${ESMF_LIB} from ${ESMFMKFILE}"
 
 # Generate CCPP cmake flags from MAKE_OPT
 CCPP_CMAKE_FLAGS="-DCMAKE_INSTALL_PREFIX=${CCPP_DIR} -DNETCDF_DIR=${NETCDF} -DMPI=ON"
@@ -181,7 +185,7 @@ if [ $clean_before = YES ]; then
     rm -fr ${PATH_CCPP_BUILD}
     rm -fr ${PATH_CCPP_INC}
     rm -fr ${PATH_CCPP_LIB}
-    rm -f ${ESMF_MK}
+    rm -f ${CCPP_MK}
 fi
 mkdir -p ${PATH_CCPP_BUILD}
 cd ${PATH_CCPP_BUILD}
@@ -205,8 +209,8 @@ else
     CCPP_LINK_OBJS="-L${PATH_CCPP_LIB} -lccpp ${CCPP_XML2_LIB}"
   fi
 fi
-echo "ESMF_DEP_INCPATH=-I${PATH_CCPP_INC}" > ${ESMF_MK}
-echo "ESMF_DEP_LINK_OBJS=${CCPP_LINK_OBJS}" >> ${ESMF_MK}
+echo "ESMF_DEP_INCPATH=-I${PATH_CCPP_INC}" > ${CCPP_MK}
+echo "ESMF_DEP_LINK_OBJS=${CCPP_LINK_OBJS}" >> ${CCPP_MK}
 
 if [ $clean_after = YES ]; then
     rm -fr ${PATH_CCPP_BUILD}
