@@ -257,6 +257,12 @@ ECFLOW=false
 KEEP_RUNDIR=false
 
 TESTS_FILE='rt.conf'
+# Switch to special regression test config on wcoss_cray:
+# don't run the IPD and CCPP tests in REPRO mode.
+if [[ $MACHINE_ID = wcoss_cray ]]; then
+  TESTS_FILE='rt_wcoss_cray.conf'
+fi
+
 SET_ID='standard'
 while getopts ":cfsl:mkreh" opt; do
   case $opt in
