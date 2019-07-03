@@ -234,8 +234,6 @@ fv3_defaults = {
     IMO='384'
     JMO='190'
 
-    OZ_PHYS_OLD='.T.'
-    OZ_PHYS_NEW='.F.'
     H2O_PHYS='.F.'
 
     DO_SPPT='.F.'
@@ -427,7 +425,9 @@ test fv3_ccpp_control: fv3_ccpp_control.exe {
     CNTL="@[plat%BASELINE]/@[CNTL_NAME]"      # Control baseline area
     FV3_input_data="@[plat%INPUTS]/FV3_input_data"
 
-    # Set additional suite name variable substitute for input.nml
+    # Set additional namelist variables for CCPP
+    OZ_PHYS_OLD='.T.'
+    OZ_PHYS_NEW='.F.'
     CCPP_SUITE='FV3_GFS_2017'
 
     # The build variable is the fv3.exe or fv3_appbuild.fv3, which

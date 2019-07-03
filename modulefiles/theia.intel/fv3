@@ -21,35 +21,18 @@ module load netcdf/4.3.0
 module load pnetcdf/1.5.0-impi
 
 ##
-## NCEP libraries (download and build manually for the time being; https://github.com/NCAR/NCEPlibs)
+## NCEP libraries (temporary version to match the CCPP requirements)
 ##
-set NCEPLIBS_DIR /scratch4/home/Dom.Heinzeller/NEMSfv3gfs_vlab_portability/NCEPlibs-intel-18.1.163-20181105
-setenv NCEPLIBS_DIR ${NCEPLIBS_DIR}
-setenv NEMSIO_INC   ${NCEPLIBS_DIR}/include
-setenv NEMSIO_LIB   ${NCEPLIBS_DIR}/lib/libnemsio_d.a
-setenv BACIO_LIB4   ${NCEPLIBS_DIR}/lib/libbacio_4.a
-setenv SP_LIBd      ${NCEPLIBS_DIR}/lib/libsp_v2.0.2_d.a
-setenv W3EMC_LIBd   ${NCEPLIBS_DIR}/lib/libw3emc_d.a
-setenv W3NCO_LIBd   ${NCEPLIBS_DIR}/lib/libw3nco_d.a
+module use -a /scratch3/NCEPDEV/nwprod/NCEPLIBS_CCPP/modulefiles
+module load bacio/9.9.9
+module load ip/9.9.9
+module load nemsio/9.9.9
+module load sp/2.0.2
+module load w3emc/9.9.9
+module load w3nco/9.9.9
 
 ##
 ## use pre-compiled EMSF library for above compiler / MPI combination
 ##
-setenv ESMF_DIR              /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150
-setenv ESMF_INC              /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150/include
-setenv ESMF_BIN              /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150/bin
-setenv ESMF_LIB              /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150/lib
-setenv ESMF_MOD              /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150/mod
-setenv ESMFMKFILE            /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150/lib/esmf.mk
-prepend-path PATH            /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150/bin
-prepend-path LD_LIBRARY_PATH /scratch4/BMC/gmtb/esmf-8.0.0_bs21/intel-18.1.163/impi-5.1.2.150/lib
-
-##
-## Set compiler environment variables for CCPP
-##
-setenv CC  mpiicc
-setenv CXX mpiicpc
-setenv FC  mpiifort
-setenv F77 mpiifort
-setenv F90 mpiifort
-
+module use -a /scratch4/NCEPDEV/nems/noscrub/emc.nemspara/soft/modulefiles
+module load esmf/8.0.0bs21-intel18

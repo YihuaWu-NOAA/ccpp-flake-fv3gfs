@@ -107,7 +107,6 @@ platform theia.slurm.intel {   # SLURM support
     use platform.defaults
     MACHINE_ID='theia.intel' # Name of this platform.
     PARTITION='theia'
-    execution_time_modules="module load slurm"
     MPI='srun'
 
     CPU_ACCOUNT='nems'

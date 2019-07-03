@@ -48,12 +48,3 @@ setenv BACIO_LIB4   ${NCEPLIBS_DIR}/lib/libbacio_4.a
 setenv SP_LIBd      ${NCEPLIBS_DIR}/lib/libsp_v2.0.2_d.a
 setenv W3EMC_LIBd   ${NCEPLIBS_DIR}/lib/libw3emc_d.a
 setenv W3NCO_LIBd   ${NCEPLIBS_DIR}/lib/libw3nco_d.a
-
-##
-## Set compiler environment variables for CCPP
-##
-setenv CC  mpicc
-setenv CXX mpicxx
-setenv FC  mpif90
-setenv F77 mpif77
-setenv F90 mpif90

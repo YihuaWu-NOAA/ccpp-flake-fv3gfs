@@ -207,7 +207,6 @@ platform ujet.slurm {
     C768_PPN=10
     cpus_per_core=2
     PARTITION='ujet'
-    execution_time_modules="module load slurm/default"
     MPI='srun'
 
     BASELINE="/lfs3/projects/hfv3gfs/emc.nemspara/RT/NEMSfv3gfs/trunk-20190613-tujet"
