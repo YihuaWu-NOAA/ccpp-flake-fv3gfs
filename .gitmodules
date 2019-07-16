@@ -1,15 +1,19 @@
 [submodule "FV3"]
 	path = FV3
 	url = https://github.com/NCAR/FV3
+	branch = gsd/develop
 [submodule "NEMS"]
 	path = NEMS
 	url = https://github.com/NCAR/NEMS
+	branch = gsd/develop
 [submodule "ccpp/framework"]
 	path = ccpp/framework
 	url = https://github.com/NCAR/ccpp-framework
+	branch = gsd/develop
 [submodule "ccpp/physics"]
 	path = ccpp/physics
 	url = https://github.com/NCAR/ccpp-physics
+	branch = gsd/develop
 [submodule "FMS"]
 	path = FMS
 	url = https://github.com/NCAR/FMS
