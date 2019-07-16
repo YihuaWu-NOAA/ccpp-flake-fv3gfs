@@ -6,7 +6,7 @@
 
 export TEST_DESCR="Compare FV3 CCPP Thompson MP + MYNN PBL results with previous trunk version"
 
-export CNTL_DIR=fv3_ccpp_thompson_mynn
+export CNTL_DIR=fv3_thompson_mynn
 
 export LIST_FILES="atmos_4xdaily.tile1.nc \
                    atmos_4xdaily.tile2.nc \
@@ -78,11 +78,15 @@ export DT_ATMOS="1200"
 export LRADAR=.T.
 export LTAEROSOL=.T.
 
-export FV3_RUN=ccpp_thompson_mynn_run.IN
+export FV3_RUN=ccpp_gsd_run.IN
 export CCPP_SUITE=FV3_GFS_2017_thompson_mynn
 export CCPP_LIB_DIR=ccpp/lib
-export INPUT_NML=ccpp_thompson_mynn.nml.IN
+export INPUT_NML=ccpp_gsd.nml.IN
 
+export HYBEDMF=.F.
+export DO_MYNNEDMF=.T.
+export IMFSHALCNV=2
+export IMFDEEPCNV=2
 
 RUN_SCRIPT=rt_fv3.sh
 

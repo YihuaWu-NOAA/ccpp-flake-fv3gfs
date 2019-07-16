@@ -4,16 +4,18 @@ set +x
 set -eu
 
 # List of valid/tested machines
-VALID_MACHINES=( wcoss_cray wcoss_dell_p3 gaea.intel jet.intel theia.intel theia.gnu theia.pgi cheyenne.intel cheyenne.intel-impi cheyenne.gnu cheyenne.pgi endeavor.intel macosx.gnu linux.gnu stampede.intel supermuc_phase2.intel)
+VALID_MACHINES=( wcoss_cray wcoss_dell_p3 gaea.intel jet.intel theia.intel theia.gnu theia.pgi \
+                 cheyenne.intel cheyenne.intel-impi cheyenne.gnu cheyenne.pgi endeavor.intel \
+                 stampede.intel supermuc_phase2.intel macosx.gnu linux.gnu )
 
 ###################################################################################################
 
 function usage   {
   echo "Usage: "
-  echo "build_ccpp.sh MACHINE_ID CCPP_DIR ESMF_MK [ 'MAKE_OPT' ] [ clean_before ] [ clean_after ]"
+  echo "build_ccpp.sh MACHINE_ID CCPP_DIR CCPP_MK [ 'MAKE_OPT' ] [ clean_before ] [ clean_after ]"
   echo "    Where: MACHINE      [required] can be : ${VALID_MACHINES[@]}"
   echo "           CCPP_DIR     [required] is the target installation directory for CCPP"
-  echo "           ESMF_MK      [required] is the location/name of the ESMF makefile fragement"
+  echo "           CCPP_MK      [required] is the location/name of the CCPP ESMF makefile fragment"
   echo "           MAKE_OPT     [optional] can be any of the NEMSfv3gfs MAKE_OPT options,"
   echo "                                   enclosed in a single string; used:"
   echo "                                   SION=Y/N        (default N)"
@@ -21,9 +23,10 @@ function usage   {
   echo "                                   REPRO=Y/N       (default N)"
   echo "                                   TRANSITION=Y/N  (default N)"
   echo "                                   OPENMP=Y/N      (default Y)"
-  echo "                                   HYBRID=Y/N      (default Y)"
   echo "                                   32BIT=Y/N       (default N, affects dynamics/fast physics only)"
-  echo "                                   STATIC=Y/N      (default N, STATIC=Y requires HYBRID=N)"
+  echo "                                   STATIC=Y/N      (default N, STATIC=Y requires SUITES=...)"
+  echo "                                   SUITES=ABC,XYZ  (comma-separated list of CCPP suites; "
+  echo "                                                    corresponding filenames: suite_ABC.xml. ...)"
   echo "                                   MULTI_GASES=Y/N (default N)"
   echo "           clean_before [optional] can be 'YES' (default) or 'NO'"
   echo "           clean_after  [optional] can be 'YES' (default) or 'NO'"
@@ -69,12 +72,25 @@ if [[ $# -lt 2 ]]; then usage; fi
 
 readonly MACHINE_ID=$1
 readonly CCPP_DIR=$2
-readonly ESMF_MK=$3
+readonly CCPP_MK=$3
 readonly MAKE_OPT=${4:-}
 readonly clean_before=${5:-YES}
 readonly clean_after=${6:-YES}
 
 checkvalid MACHINE_ID $MACHINE_ID ${VALID_MACHINES[@]}
+
+# Set compilers for cmake
+source ./set_compilers.sh
+
+# Obtain ESMF_LIB from ESMFMKFILE's ESMF_LIBSDIR entry
+readonly ESMF_LIB=$(cat $ESMFMKFILE | grep -E '^ESMF_LIBSDIR=.+' | cut -d = -f 2)
+echo "Obtained ESMF_LIB=${ESMF_LIB} from ${ESMFMKFILE}"
+
+# Account for inconsistencies in HPC modules: if environment variable
+# NETCDF is undefined, try to set from NETCDF_DIR, NETCDF_ROOT, ...
+if [[ "${MACHINE_ID}" == "wcoss_cray" ]]; then
+  NETCDF=${NETCDF:-${NETCDF_DIR}}
+fi
 
 # Generate CCPP cmake flags from MAKE_OPT
 CCPP_CMAKE_FLAGS="-DCMAKE_INSTALL_PREFIX=${CCPP_DIR} -DNETCDF_DIR=${NETCDF} -DMPI=ON"
@@ -97,37 +113,24 @@ else
 fi
 if [[ "${MAKE_OPT}" == *"TRANSITION=Y"* ]]; then
   CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DTRANSITION=ON"
+else
+  CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DTRANSITION=OFF"
 fi
 if [[ "${MAKE_OPT}" == *"OPENMP=N"* ]]; then
   CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DOPENMP=OFF"
 else
   CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DOPENMP=ON"
 fi
-if [[ "${MAKE_OPT}" == *"HYBRID=N"* ]]; then
-  CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DTEMPLOG=ON"
-else
-  CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DTEMPLOG=OFF"
-fi
 if [[ "${MAKE_OPT}" == *"32BIT=Y"* ]]; then
   CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DDYN32=ON"
 else
   CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DDYN32=OFF"
 fi
-if [[ "${MAKE_OPT}" == *"HYBRID=N"* ]]; then
-  CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DHYBRID=OFF"
-else
-  CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DHYBRID=ON"
-fi
 if [[ "${MAKE_OPT}" == *"STATIC=Y"* ]]; then
-  if [[ "${MAKE_OPT}" == *"HYBRID=N"* ]]; then
-    CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DSTATIC=ON"
-  else
-    echo "Error, option STATIC=Y requires HYBRID=N"
-    exit 1
-  fi
+  CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DSTATIC=ON"
 else
   # Dynamic builds require linking the NCEPlibs, provide path to them
-  CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DBACIO_LIB4=${BACIO_LIB4} -DSP_LIBd=${SP_LIBd} -DW3NCO_LIBd=${W3NCO_LIBd}"
+  CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DSTATIC=OFF -DBACIO_LIB4=${BACIO_LIB4} -DSP_LIBd=${SP_LIBd} -DW3NCO_LIBd=${W3NCO_LIBd}"
 fi
 if [[ "${MAKE_OPT}" == *"MULTI_GASES=Y"* ]]; then
   CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DMULTI_GASES=ON"
@@ -188,7 +191,7 @@ if [ $clean_before = YES ]; then
     rm -fr ${PATH_CCPP_BUILD}
     rm -fr ${PATH_CCPP_INC}
     rm -fr ${PATH_CCPP_LIB}
-    rm -f ${ESMF_MK}
+    rm -f ${CCPP_MK}
 fi
 mkdir -p ${PATH_CCPP_BUILD}
 cd ${PATH_CCPP_BUILD}
@@ -212,8 +215,8 @@ else
     CCPP_LINK_OBJS="-L${PATH_CCPP_LIB} -lccpp ${CCPP_XML2_LIB}"
   fi
 fi
-echo "ESMF_DEP_INCPATH=-I${PATH_CCPP_INC}" > ${ESMF_MK}
-echo "ESMF_DEP_LINK_OBJS=${CCPP_LINK_OBJS}" >> ${ESMF_MK}
+echo "ESMF_DEP_INCPATH=-I${PATH_CCPP_INC}" > ${CCPP_MK}
+echo "ESMF_DEP_LINK_OBJS=${CCPP_LINK_OBJS}" >> ${CCPP_MK}
 
 if [ $clean_after = YES ]; then
     rm -fr ${PATH_CCPP_BUILD}

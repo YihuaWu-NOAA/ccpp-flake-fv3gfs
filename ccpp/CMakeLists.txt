@@ -1,5 +1,12 @@
 cmake_minimum_required(VERSION 2.8.11)
 
+# Use rpaths on MacOSX
+set(CMAKE_MACOSX_RPATH 1)
+
+if(POLICY CMP0048)
+    cmake_policy(SET CMP0048 NEW)
+endif(POLICY CMP0048)
+
 if(POLICY CMP0042)
     cmake_policy(SET CMP0042 NEW)
 endif(POLICY CMP0042)
@@ -10,9 +17,6 @@ set(PROJECT "CCPP-FV3")
 ENABLE_LANGUAGE(Fortran)
 
 include(CMakeForceCompiler)
-
-# Use rpaths on MacOSX
-set(CMAKE_MACOSX_RPATH 1)
 
 #------------------------------------------------------------------------------
 # Set a default build type if none was specified
@@ -73,18 +77,19 @@ endif (${CMAKE_BUILD_TYPE} MATCHES "Debug")
 
 # Set compiler-specific options, depending on build type; some optimization flags may only be used
 # for certain files (controlled for example in ccpp-physics' CMakeLists.txt). These must be set as
-# CMAKE_Fortran_FLAGS_OPT, which by default is empty.
+# CMAKE_Fortran_FLAGS_OPT, which by default is empty. Flags for controlling the default precision
+# are set as CMAKE_Fortran_FLAGS_DEFAULT_PREC.
 set (CMAKE_Fortran_FLAGS_OPT "")
 if (${CMAKE_Fortran_COMPILER_ID} MATCHES "GNU")
   set (CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -fcray-pointer -ffree-line-length-none -fno-range-check")
-  set (CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -fbacktrace -fdefault-real-8 -fdefault-double-8")
-  set (CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -cpp")
+  set (CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -fbacktrace -cpp")
   if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
     set (CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -fno-unsafe-math-optimizations -frounding-math -fsignaling-nans")
     set (CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -ffpe-trap=invalid,zero,overflow -fcheck=bounds -fbacktrace -fno-range-check")
   endif (${CMAKE_BUILD_TYPE} MATCHES "Debug")
+  set (CMAKE_Fortran_FLAGS_DEFAULT_PREC "-fdefault-real-8 -fdefault-double-8")
 elseif (${CMAKE_Fortran_COMPILER_ID} MATCHES "PGI")
-  set (CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -Mcray=pointer -Kieee -byteswapio -i4 -r8 -Mfprelaxed=div -Mfprelaxed=sqrt")
+  set (CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -Mcray=pointer -Kieee -byteswapio -Mfprelaxed=div -Mfprelaxed=sqrt")
   set (CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -traceback")
   set (CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -Mpreprocess")
   if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
@@ -94,11 +99,10 @@ elseif (${CMAKE_Fortran_COMPILER_ID} MATCHES "PGI")
   elseif (${CMAKE_BUILD_TYPE} MATCHES "Release")
     set (CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -tp=haswell")
   endif (${CMAKE_BUILD_TYPE} MATCHES "Debug")
+  set (CMAKE_Fortran_FLAGS_DEFAULT_PREC "-i4 -r8")
 elseif (${CMAKE_Fortran_COMPILER_ID} MATCHES "Intel")
   set (CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -fno-alias -auto -safe-cray-ptr -ftz -assume byterecl -nowarn -sox -align array64byte")
-  set (CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -i4 -real-size 64 -qno-opt-dynamic-align")
-  set (CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -fpp")
-  set (CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -save-temps")
+  set (CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -qno-opt-dynamic-align -fpp -save-temps")
   if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
     set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ftrapuv -traceback")
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftrapuv -traceback")
@@ -115,6 +119,7 @@ elseif (${CMAKE_Fortran_COMPILER_ID} MATCHES "Intel")
     endif (SIMDMULTIARCH)
     set (CMAKE_Fortran_FLAGS  "${CMAKE_Fortran_FLAGS} -debug minimal -fp-model source -qoverride-limits -qopt-prefetch=3")
   endif (${CMAKE_BUILD_TYPE} MATCHES "Debug")
+  set (CMAKE_Fortran_FLAGS_DEFAULT_PREC "-i4 -real-size 64")
 else (${CMAKE_Fortran_COMPILER_ID} MATCHES "GNU")
   message (FATAL_ERROR "CCPP has only been compiled with gfortran, pgf90 and ifort.")
 endif (${CMAKE_Fortran_COMPILER_ID} MATCHES "GNU")
@@ -158,18 +163,6 @@ ADD_DEFINITIONS(-DFV3)
 if (MPI)
   ADD_DEFINITIONS(-DMPI)
 endif (MPI)
-
-#------------------------------------------------------------------------------
-# Set TEMPLOG flags for C/C++/Fortran preprocessor (temporary, need better logging)
-if (TEMPLOG)
-  ADD_DEFINITIONS(-DTEMPLOG)
-endif (TEMPLOG)
-
-#------------------------------------------------------------------------------
-# Set flags for hybrid/non-hybrid build of CCPP
-if (HYBRID)
-  ADD_DEFINITIONS(-DHYBRID)
-endif (HYBRID)
 
 #------------------------------------------------------------------------------
 # Set flags for static building/linking of CCPP
@@ -272,7 +265,6 @@ endif(NETCDF_DIR)
 #------------------------------------------------------------------------------
 # Set ESMF flags for preprocessor, compiler and linker (if defined)
 if(ESMF_LIB_DIR)
-  message (STATUS "ESMF_LIB_DIR: ${ESMF_LIB_DIR}")
   set (CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -L${ESMF_LIB_DIR} -lesmf")
   message (STATUS "Enable ESMF support")
 else(ESMF_LIB_DIR)

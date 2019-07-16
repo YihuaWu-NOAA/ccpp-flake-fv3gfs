@@ -54,7 +54,7 @@ embed bash compile.sh(MAKE_OPTS=' ',BUILD_NR='',fv3,modules,md5) [[[
                 ./compile.sh "@[plat%HOMEnems]/FV3" \
                 $( echo @[plat%MACHINE_ID] | sed 's,\.,_,g' ) \
                 @[MAKE_OPTS] @[BUILD_NR]
-        elif [[ @[plat%MACHINE_ID] == theia.* || @[plat%MACHINE_ID] == cheyenne.* || @[plat%MACHINE_ID] == gaea.* || @[plat%MACHINE_ID] == jet.* ]] ; then
+        elif [[ @[plat%PLATFORM_NAME] == theia* || @[plat%PLATFORM_NAME] == cheyenne* || @[plat%PLATFORM_NAME] == gaea* || @[plat%PLATFORM_NAME] == jet* ]] ; then
             # Don't substitute the . with a _ on Theia/Cheyenne
             echo "DON'T SUBSTITUTE _ for . on @[plat%PLATFORM_NAME]"
             ./compile.sh "@[plat%HOMEnems]/FV3" \
@@ -106,7 +106,7 @@ build fv3_ccpp_control.exe {
     # build: script to build the NEMS.x.  For now, this is an embedded
     # bash script.
     build=compile.sh(fv3="@[target]",modules="@[modules.nems]",md5="@[md5sum]",
-                    MAKE_OPTS="\'CCPP=Y HYBRID=N STATIC=Y SUITES=FV3_GFS_2017\'")
+                     MAKE_OPTS="\'CCPP=Y STATIC=Y SUITES=FV3_GFS_2017\'")
 }
 
 build fv3_32bit.exe {
@@ -192,6 +192,10 @@ fv3_defaults = {
     LHEATSTRG='.F.'
     LGFDLMPRAD='.F.'
     EFFR_IN='.F.'
+    LDIAG_UGWP='.F.'
+    DO_UGWP='.F.'
+    DO_TOFD='.F.'
+    LSM='1'
     NA_INIT='1'
     READ_INCREMENT='.F.'
     FDIAG='0,1,2,3,4,5,6,7,8,9,10,11,12,15,18,21,24'
@@ -201,6 +205,7 @@ fv3_defaults = {
     FNSOTC="'global_soiltype.statsgo.t126.384.190.rg.grb',"
     FNSMCC="'global_soilmgldas.t126.384.190.grb',"
     FNABSC="'global_mxsnoalb.uariz.t126.384.190.rg.grb',"
+    LANDICE='.T.'
 
     ENS_NUM='1'
     SYEAR='2016'
@@ -230,8 +235,6 @@ fv3_defaults = {
     IMO='384'
     JMO='190'
 
-    OZ_PHYS_OLD='.T.'
-    OZ_PHYS_NEW='.F.'
     H2O_PHYS='.F.'
 
     DO_SPPT='.F.'
@@ -416,10 +419,17 @@ test fv3_ccpp_control: fv3_ccpp_control.exe {
     use fv3_control
     TEST_DESCR="Compare FV3 CCPP control results with previous trunk version"
 
-    DO_SPPT='.F.'
-    DO_SKEB='.F.'
-    DO_SHUM='.F.'
-    DO_SFCPERTS='.F.'
+    # Use CCPP PROD control directory
+    CNTL_NAME='fv3_control_ccpp'
+    COM="@[plat%COMrt]/@[TEST_NAME]"          # Test result area
+    RUNDIR="@[plat%TMPrt]/@[TEST_NAME]"       # Test work area
+    CNTL="@[plat%BASELINE]/@[CNTL_NAME]"      # Control baseline area
+    FV3_input_data="@[plat%INPUTS]/FV3_input_data"
+
+    # Set additional namelist variables for CCPP
+    OZ_PHYS_OLD='.T.'
+    OZ_PHYS_NEW='.F.'
+    CCPP_SUITE='FV3_GFS_2017'
 
     # The build variable is the fv3.exe or fv3_appbuild.fv3, which
     # provides the path to the build target, md5 sum, and modulefile.
@@ -999,6 +1009,10 @@ test fv3_gfdlmp: fv3.exe {
     CNTL_NAME='fv3_gfdlmp'
 
     DT_ATMOS='1200'
+    OUTPUT_GRID="'gaussian_grid'"
+    OUTPUT_FILE="'nemsio'"
+    WRITE_NEMSIOFLIP='.true.'
+    WRITE_FSYNCFLAG='.true.'
 
     COM="@[plat%COMrt]/@[TEST_NAME]"          # Test result area
     RUNDIR="@[plat%TMPrt]/@[TEST_NAME]"       # Test work area
@@ -1040,30 +1054,10 @@ test fv3_gfdlmp: fv3.exe {
         'atmos_4xdaily.tile4.nc' .bitcmp. "@[CNTL]"
         'atmos_4xdaily.tile5.nc' .bitcmp. "@[CNTL]"
         'atmos_4xdaily.tile6.nc' .bitcmp. "@[CNTL]"
-        'phyf000.tile1.nc'       .bitcmp. "@[CNTL]"
-        'phyf000.tile2.nc'       .bitcmp. "@[CNTL]"
-        'phyf000.tile3.nc'       .bitcmp. "@[CNTL]"
-        'phyf000.tile4.nc'       .bitcmp. "@[CNTL]"
-        'phyf000.tile5.nc'       .bitcmp. "@[CNTL]"
-        'phyf000.tile6.nc'       .bitcmp. "@[CNTL]"
-        'phyf024.tile1.nc'       .bitcmp. "@[CNTL]"
-        'phyf024.tile2.nc'       .bitcmp. "@[CNTL]"
-        'phyf024.tile3.nc'       .bitcmp. "@[CNTL]"
-        'phyf024.tile4.nc'       .bitcmp. "@[CNTL]"
-        'phyf024.tile5.nc'       .bitcmp. "@[CNTL]"
-        'phyf024.tile6.nc'       .bitcmp. "@[CNTL]"
-        'dynf000.tile1.nc'       .bitcmp. "@[CNTL]"
-        'dynf000.tile2.nc'       .bitcmp. "@[CNTL]"
-        'dynf000.tile3.nc'       .bitcmp. "@[CNTL]"
-        'dynf000.tile4.nc'       .bitcmp. "@[CNTL]"
-        'dynf000.tile5.nc'       .bitcmp. "@[CNTL]"
-        'dynf000.tile6.nc'       .bitcmp. "@[CNTL]"
-        'dynf024.tile1.nc'       .bitcmp. "@[CNTL]"
-        'dynf024.tile2.nc'       .bitcmp. "@[CNTL]"
-        'dynf024.tile3.nc'       .bitcmp. "@[CNTL]"
-        'dynf024.tile4.nc'       .bitcmp. "@[CNTL]"
-        'dynf024.tile5.nc'       .bitcmp. "@[CNTL]"
-        'dynf024.tile6.nc'       .bitcmp. "@[CNTL]"
+        'phyf000.nemsio'         .bitcmp. "@[CNTL]"
+        'phyf024.nemsio'         .bitcmp. "@[CNTL]"
+        'dynf000.nemsio'         .bitcmp. "@[CNTL]"
+        'dynf024.nemsio'         .bitcmp. "@[CNTL]"
         'RESTART/coupler.res'                   .bitcmp. "@[CNTL]/RESTART/"
         'RESTART/fv_core.res.nc'                .bitcmp. "@[CNTL]/RESTART/"
         'RESTART/fv_core.res.tile1.nc'          .bitcmp. "@[CNTL]/RESTART/"
@@ -1120,6 +1114,31 @@ test fv3_gfdlmprad: fv3.exe {
 
     LGFDLMPRAD='.true.'
     EFFR_IN='.true.'
+}
+
+test fv3_gfdlmprad_gwd: fv3.exe {
+    use fv3_gfdlmp
+
+    TEST_DESCR="Compare FV3 GFDL radiation interaction option and gravity wve drag results with previous trunk version"
+    CNTL_NAME='fv3_gfdlmprad_gwd'
+
+    LGFDLMPRAD='.true.'
+    EFFR_IN='.true.'
+    DO_UGWP='.true.'
+    DO_TOFD='.true.'
+
+}
+
+test fv3_gfdlmprad_noahmp: fv3.exe {
+    use fv3_gfdlmp
+
+    TEST_DESCR="Compare FV3 GFDL radiation interaction option and Noah MP results with previous trunk version"
+    CNTL_NAME='fv3_gfdlmprad_noahmp'
+
+    LGFDLMPRAD='.true.'
+    EFFR_IN='.true.'
+    LSM='2'  
+    LANDICE='.false.'
 
 }
 

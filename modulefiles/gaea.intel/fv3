@@ -1,39 +1,59 @@
 #%Module######################################################################
 ##
-##    NEMS FV3 Prerequisites: Surge and Luna (WCOSS Cray)
+##    NEMS FV3 Prerequisites: Gaea/Intel
 
 proc ModulesHelp {} {
-  puts stderr "\tcit - loads modules required for building and running FV3 under NEMS on gaea"
+  puts stderr "\tcit - loads modules required for building and running FV3 under NEMS on Gaea/Intel"
 }
 
-module-whatis "loads NEMS FV3 prerequisites on Surge and Luna"
+module-whatis "loads NEMS FV3 prerequisites for Gaea/Intel"
 
 # NOTE: the "module purge" and loading of the module command are
 # handled by the module-setup.sh (or .csh) script.
+
 ##
 ## load programming environment
 ## this typically includes compiler, MPI and job scheduler
 ##
 module load PrgEnv-intel/6.0.3
 module rm intel
-module load intel/16.0.3.210
+module load intel/18.0.3.222
 module load cray-netcdf
+setenv NETCDF /opt/cray/pe/netcdf/4.4.0/INTEL/15.0
+setenv HDF5   /opt/cray/pe/hdf5/1.8.16/INTEL/15.0
+
 ##
-## load nwprod libraries
+## Libxml2 - compiled manually because of issues with linking the code
+## 
+set LIBXML2_DIR /lustre/f2/dev/Dom.Heinzeller/libxml2-2.9.9/intel-18.0.3.222
+setenv LIBXML2_DIR         ${LIBXML2_DIR}
+setenv LIBXML2_INCLUDE_DIR ${LIBXML2_DIR}/include
+setenv LIBXML2_LIB_DIR     ${LIBXML2_DIR}/lib
+prepend-path LD_LIBRARY_PATH /lustre/f2/dev/Dom.Heinzeller/libxml2-2.9.9/intel-18.0.3.222/lib
+
 ##
-set nceplibs /lustre/f2/pdata/ncep_shared/NCEPLIBS/lib/
-setenv NCEPLIBS ${nceplibs}
-module use ${nceplibs}/modulefiles
-module load bacio-intel-sandybridge/2.0.1
-module load ip-intel-sandybridge/2.0.0
-module load sp-intel-sandybridge/2.0.2
-module load w3nco-intel-sandybridge/2.0.6
-module load w3emc-intel-sandybridge/2.2.0
-module load nemsio-intel-sandybridge/2.2.3
+## NCEP libraries (download and build manually for the time being; https://github.com/NCAR/NCEPlibs)
 ##
-## set esmf variables while waiting to get 7.1.39rb
+set NCEPLIBS_DIR /lustre/f2/dev/Dom.Heinzeller/NCEPlibs-20190215/intel-18.0.3.222/cray-mpich-7.4.0
+setenv NCEPLIBS_DIR ${NCEPLIBS_DIR}
+setenv NEMSIO_INC   ${NCEPLIBS_DIR}/include
+setenv NEMSIO_LIB   ${NCEPLIBS_DIR}/lib/libnemsio_d.a
+setenv BACIO_LIB4   ${NCEPLIBS_DIR}/lib/libbacio_4.a
+setenv SP_LIBd      ${NCEPLIBS_DIR}/lib/libsp_v2.0.2_d.a
+setenv W3EMC_LIBd   ${NCEPLIBS_DIR}/lib/libw3emc_d.a
+setenv W3NCO_LIBd   ${NCEPLIBS_DIR}/lib/libw3nco_d.a
+
 ##
-module load esmflocal/7_1_0r
+## use pre-compiled EMSF library for above compiler / MPI combination
+##
+setenv ESMF_DIR              /lustre/f2/dev/Dom.Heinzeller/esmf-7.1.0r/intel-18.0.3.222/cray-mpich-7.4.0
+setenv ESMF_INC              /lustre/f2/dev/Dom.Heinzeller/esmf-7.1.0r/intel-18.0.3.222/cray-mpich-7.4.0/include
+setenv ESMF_BIN              /lustre/f2/dev/Dom.Heinzeller/esmf-7.1.0r/intel-18.0.3.222/cray-mpich-7.4.0/bin
+setenv ESMF_LIB              /lustre/f2/dev/Dom.Heinzeller/esmf-7.1.0r/intel-18.0.3.222/cray-mpich-7.4.0/lib
+setenv ESMF_MOD              /lustre/f2/dev/Dom.Heinzeller/esmf-7.1.0r/intel-18.0.3.222/cray-mpich-7.4.0/mod
+setenv ESMFMKFILE            /lustre/f2/dev/Dom.Heinzeller/esmf-7.1.0r/intel-18.0.3.222/cray-mpich-7.4.0/lib/esmf.mk
+prepend-path PATH            /lustre/f2/dev/Dom.Heinzeller/esmf-7.1.0r/intel-18.0.3.222/cray-mpich-7.4.0/bin
+prepend-path LD_LIBRARY_PATH /lustre/f2/dev/Dom.Heinzeller/esmf-7.1.0r/intel-18.0.3.222/cray-mpich-7.4.0/lib
 
 # Needed at runtime:
 module load alps
