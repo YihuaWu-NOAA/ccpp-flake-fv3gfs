@@ -1,8 +1,12 @@
 ###############################################################################
 #
-#  FV3 CCPP control test
+#  FV3 CCPP GF CU test
 #
 ###############################################################################
+
+export TEST_DESCR="Compare FV3 CCPP GF CU results with previous trunk version"
+
+export CNTL_DIR=fv3_gf
 
 export LIST_FILES="atmos_4xdaily.tile1.nc \
                    atmos_4xdaily.tile2.nc \
@@ -67,13 +71,22 @@ export LIST_FILES="atmos_4xdaily.tile1.nc \
                    RESTART/sfc_data.tile5.nc \
                    RESTART/sfc_data.tile6.nc"
 
-
 export_fv3
 export NODES=$(expr $TASKS / $TPN + 1)
 
-export FV3_RUN=ccpp_control_run.IN
-export CCPP_SUITE=FV3_GFS_2017
+export DT_ATMOS="1200"
+export IMP_PHYSICS=11
+export DNATS=1
+export DO_SAT_ADJ=.T.
+
+export FV3_RUN=ccpp_gsd_run.IN
+export CCPP_SUITE=FV3_GFS_v15_gf
 export CCPP_LIB_DIR=ccpp/lib
-export INPUT_NML=ccpp_control.nml.IN
+export INPUT_NML=ccpp_gsd.nml.IN
+
+export HYBEDMF=.T.
+export DO_MYNNEDMF=.F.
+export IMFSHALCNV=3
+export IMFDEEPCNV=3
 
 RUN_SCRIPT=rt_fv3.sh
