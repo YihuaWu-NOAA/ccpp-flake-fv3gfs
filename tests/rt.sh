@@ -137,7 +137,10 @@ elif [[ $MACHINE_ID = gaea.* ]]; then
 #  export PATH=/gpfs/hps/nco/ops/ecf/ecfdir/ecflow.v4.1.0.intel/bin:$PATH
   export PYTHONPATH=
   ECFLOW_START=
-  DISKNM=/lustre/f2/pdata/ncep_shared/emc.nemspara/RT
+  # DH* 20190717 temporary
+  #DISKNM=/lustre/f2/pdata/ncep_shared/emc.nemspara/RT
+  DISKNM=/lustre/f2/pdata/esrl/gsd/gmtb/NEMSfv3gfs/RT
+  # *DH 20190717
   QUEUE=debug
 #  DO NOT SET AN ACCOUNT EVERYONE IS NOT A MEMBER OF
 #  USE AN ENVIRONMENT VARIABLE TO SET ACCOUNT
