@@ -192,15 +192,15 @@ elif [[ $MACHINE_ID = jet.* ]]; then
   ECFLOW_START=/scratch4/NCEPDEV/meso/save/Dusan.Jovic/ecflow/bin/ecflow_start.sh
   QUEUE=debug
 #  ACCNR=fv3-cpu
-  PARTITION=
+  PARTITION=xjet
   DISKNM=/mnt/lfs3/projects/hfv3gfs/GMTB/RT
   dprefix=/mnt/lfs3/projects/hfv3gfs/$USER
   STMP=$dprefix/RT_BASELINE
   PTMP=$dprefix/RT_RUNDIRS
-  SCHEDULER=pbs
-  MPIEXEC=mpirun
-  MPIEXECOPTS=
-  cp fv3_conf/fv3_qsub.IN_jet fv3_conf/fv3_qsub.IN
+
+  # default scheduler on Jet
+  SCHEDULER=slurm
+  cp fv3_conf/fv3_slurm.IN_jet fv3_conf/fv3_slurm.IN
 
 elif [[ $MACHINE_ID = cheyenne.* ]]; then
 
