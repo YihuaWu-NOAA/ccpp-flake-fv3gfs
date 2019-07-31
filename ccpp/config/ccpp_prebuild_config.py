@@ -13,10 +13,46 @@ HOST_MODEL_IDENTIFIER = "FV3"
 # relative to basedir = top-level directory of host model
 VARIABLE_DEFINITION_FILES = [
     'ccpp/physics/physics/machine.F',
+    'ccpp/physics/physics/radsw_param.f',
+    'ccpp/physics/physics/radlw_param.f',
     'FV3/gfsphysics/CCPP_layer/CCPP_typedefs.F90',
     'FV3/gfsphysics/GFS_layer/GFS_typedefs.F90',
     'FV3/gfsphysics/CCPP_layer/CCPP_data.F90',
     ]
+
+TYPEDEFS_NEW_METADATA = {
+    'machine' : {
+        'machine' : '',
+        },
+    'module_radlw_parameters' : {
+        'module_radsw_parameters' : '',
+        },
+    'module_radlw_parameters' : {
+        'module_radlw_parameters' : '',
+        },
+    'CCPP_typedefs' : {
+        'CCPP_interstitial_type' : 'CCPP_interstitial',
+        'CCPP_typedefs' : '',
+        },
+    'CCPP_data' : {
+        'CCPP_data' : '',
+        },
+    'GFS_typedefs' : {
+        'GFS_control_type'      : 'GFS_Control',
+        'GFS_interstitial_type' : 'GFS_Interstitial(cdata%thrd_no)',
+        'GFS_data_type'         : 'GFS_Data(cdata%blk_no)',
+        'GFS_diag_type'         : 'GFS_Data(cdata%blk_no)%Intdiag',
+        'GFS_tbd_type'          : 'GFS_Data(cdata%blk_no)%Tbd',
+        'GFS_sfcprop_type'      : 'GFS_Data(cdata%blk_no)%Sfcprop',
+        'GFS_coupling_type'     : 'GFS_Data(cdata%blk_no)%Coupling',
+        'GFS_statein_type'      : 'GFS_Data(cdata%blk_no)%Statein',
+        'GFS_cldprop_type'      : 'GFS_Data(cdata%blk_no)%Cldprop',
+        'GFS_radtend_type'      : 'GFS_Data(cdata%blk_no)%Radtend',
+        'GFS_grid_type'         : 'GFS_Data(cdata%blk_no)%Grid',
+        'GFS_stateout_type'     : 'GFS_Data(cdata%blk_no)%Stateout',
+        'GFS_typedefs' : '',
+        },
+    }
 
 # Add all physics scheme dependencies relative to basedir - note that the CCPP
 # rules stipulate that dependencies are not shared between the schemes!
