@@ -145,11 +145,12 @@ steps 12-15, these differences can be ignored. It is also assumed that the bash 
 
     # Obtain source code from gitub and build in /usr/local/src
     cd /usr/local/src
-    git clone https://github.com/climbfuji/NCEPlibs.git
-    cd NCEPlibs
-    ./make_ncep_libs.sh -s macosx -c gnu -d /usr/local/NCEPlibs-20181105 -o 1 2>&1 | tee log.make
+    git clone https://github.com/NCAR/NCEPlibs.git NCEPlibs-20190811
+    cd NCEPlibs-20190811
+    ./make_ncep_libs.sh -s macosx -c gnu -d /usr/local/NCEPlibs-20190811 -o 1 2>&1 | tee log.make
 
-14. Download and install Intel Math Kernel Library MKL to /usr/local/mkl using the installer script
+14. Download and install Intel Math Kernel Library MKL (full package) from https://software.intel.com/en-us/mkl
+    to /usr/local/mkl using the installer script (requires sudo/root password)
 
 15. Build model. Change to top-level directory of NEMSfv3gfs.
 
