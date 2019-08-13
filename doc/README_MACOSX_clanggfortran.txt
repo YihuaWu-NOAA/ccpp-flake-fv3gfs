@@ -4,7 +4,7 @@ Target systems: macOS High Sierra / macOS Mojave with LLVM clang + GNU gfortran 
 
 In order to build and run the FV3 trunk (August 2019) with possible CCPP extensions by GMTB on macOS,
 the following installation steps are recommended. The version numbers for the "brew" correspond to the default versions
-in November 2018 and will change to newer versions in the future. Unless problems occur during the manual builds in
+in August 2019 and will change to newer versions in the future. Unless problems occur during the manual builds in
 steps 6-11, these differences can be ignored. It is also assumed that the bash shell is used in the following.
 
 1. Install homebrew (enter sudo password when requested)
@@ -76,10 +76,6 @@ export MPICXX="mpicxx -cxx=${CXX}"
 export MPIFORT=/usr/local/bin/mpifort
 export MPIF77=/usr/local/bin/mpif77
 export MPIF90=/usr/local/bin/mpif90
-# DH* TODO
-#export CPP="${MPIF90} -E -x f95-cpp-input"
-export FPP="${MPIF90} -E -x f95-cpp-input"
-# *DH TODO
 
 export LDFLAGS="-L/usr/local/opt/llvm/lib"
 export LIBS_OPENMP="-L/usr/local/opt/llvm/lib -lomp"
@@ -130,7 +126,6 @@ export MKL_DIR=/opt/intel/compilers_and_libraries_2019.4.233/mac/mkl
     make 2>&1 | tee log.make
     make check 2>&1 | tee log.check
     # SYSTEM TESTS SUMMARY
-    DH * TODO
     # Found 45 multi-processor system tests, 38 passed and 7 failed.
     # UNIT TESTS SUMMARY
     # Found 3466 non-exhaustive multi-processor unit tests, 3394 passed and 72 failed.
@@ -215,15 +210,15 @@ export MKL_DIR=/opt/intel/compilers_and_libraries_2019.4.233/mac/mkl
     a) copy the contents of the run directory templates to where you want to run the model, change to this directory
        (these folders are read-only, i.e. users might have to add the write-flag after copying/rsyncing them)
 
-        theia:    /scratch4/BMC/gmtb/Dom.Heinzeller/macosx_rundirs/C96_trunk_20190811/gnu/
-        cheyenne: /glade/p/ral/jntp/GMTB/NEMSfv3gfs/macosx_rundirs/C96_trunk_20190811/gnu/
+        theia:    /scratch4/BMC/gmtb/Dom.Heinzeller/rundirs/20190811/macosx/fv3_gfdlmp/
+        cheyenne: /glade/p/ral/jntp/GMTB/NEMSfv3gfs/rundirs/20190811/macosx/fv3_gfdlmp/
 
-    b) edit run_macosx_no_ccpp.sh/run_macosx_ccpp.sh and change the variable FV3_BUILD_DIR to the top-level directory of your FV3-build
+    b) edit run_macosx.sh, set variables and change the variable FV3_BUILD_DIR to the top-level directory of your FV3-build
 
-    c) source ~/setenv_develop.sh script and execute the model run using the wrapper run_macosx_no_ccpp.sh (same for run_macosx_ccpp.sh)
-        . ~/setenv_develop.sh
-        ./run_macosx_no_ccpp.sh 2>&1 | tee run_macosx.log
-        # or, with X OpenMP threads
-        OMP_NUM_THREADS=X ./run_macosx_no_ccpp.sh 2>&1 | tee run_macosx.log
+    c) source ~/setenv_develop_nemsfv3gfs.sh and execute the model run using the wrapper run_macosx.sh
+        . ~/setenv_develop_nemsfv3gfs.sh
+        ./run_macosx.sh 2>&1 | tee run_macosx.log
+        # or, with N OpenMP threads (use N=1 for the dynamic CCPP build)
+        OMP_NUM_THREADS=N ./run_macosx.sh 2>&1 | tee run_macosx.log
 
     d) go and get yourself a cup of coffee ...
