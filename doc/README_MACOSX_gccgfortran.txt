@@ -1,3 +1,12 @@
+# Dom Heinzeller (dom.heinzeller@noaa.gov), 08/12/2019
+
+Target systems: macOS High Sierra / macOS Mojave with GNU gcc+gfortran compilers and mpich MPI library.
+
+In order to build and run the FV3 trunk (August 2019) with possible CCPP extensions by GMTB on macOS,
+the following installation steps are recommended. The version numbers for the "brew" correspond to the default versions
+in August 2019 and will change to newer versions in the future. Unless problems occur during the manual builds in
+steps 6-11, these differences can be ignored. It is also assumed that the bash shell is used in the following.
+
 1. Install homebrew (enter sudo password when requested)
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
@@ -40,7 +49,7 @@
     f) Install cmake-3.15.2
     brew install cmake
 
-    g) Install xquartz--2.7.11 (optional, only needed for ncview)
+    g) Install xquartz-2.7.11 (optional, only needed for ncview)
     brew cask install xquartz
 
     h) Install ncview-2.1.7 (optional)
@@ -58,6 +67,7 @@ export CXX=g++-8
 export FC=gfortran-8
 export F90=gfortran-8
 export F77=gfortran-8
+
 export MPICC="mpicc -cc=$CC"
 export MPICXX="mpicxx -cxx=$CXX"
 export MPIFORT="mpifort -fc=$FC"
@@ -164,9 +174,12 @@ export MKL_DIR=/opt/intel/compilers_and_libraries_2019.4.233/mac/mkl
     # Requires exporting CC, F90, MPIF90 (done by setenv_develop_nemsfv3gfs.sh)
     ./make_ncep_libs.sh -s macosx -c gnu -d /usr/local/NCEPlibs-20190811 -o 1 2>&1 | tee log.make
 
-8. Download and install Intel Math Kernel Library MKL (full package) from https://software.intel.com/en-us/mkl to /opt/intel (default location) using the installer script
+8. Download and install Intel Math Kernel Library MKL (full package) from https://software.intel.com/en-us/mkl
+   to /opt/intel (default location) using the installer script (requires sudo/root access)
 
-9. Pro-tip (optional): have your computer remember your GitHub username and password. See https://help.github.com/en/articles/caching-your-github-password-in-git
+9. Pro-tip (optional): have your computer remember your GitHub username and password.
+   See https://help.github.com/en/articles/caching-your-github-password-in-git.
+
     git config --global credential.helper osxkeychain
 
 10. Download the model from GitHub:
@@ -191,15 +204,15 @@ export MKL_DIR=/opt/intel/compilers_and_libraries_2019.4.233/mac/mkl
     a) copy the contents of the run directory templates to where you want to run the model, change to this directory
        (these folders are read-only, i.e. users might have to add the write-flag after copying/rsyncing them)
 
-        theia:    /scratch4/BMC/gmtb/Dom.Heinzeller/macosx_rundirs/C96_trunk_20180831/gnu/
-        cheyenne: /glade/p/ral/jntp/GMTB/NEMSfv3gfs/macosx_rundirs/C96_trunk_20180831/gnu/
+        theia:    /scratch4/BMC/gmtb/Dom.Heinzeller/rundirs/20190811/macosx/fv3_gfdlmp/
+        cheyenne: /glade/p/ral/jntp/GMTB/NEMSfv3gfs/rundirs/20190811/macosx/fv3_gfdlmp/
 
-    b) edit run_macosx_no_ccpp.sh/run_macosx_ccpp.sh and change the variable FV3_BUILD_DIR to the top-level directory of your FV3-build
+    b) edit run_macosx.sh, set variables and change the variable FV3_BUILD_DIR to the top-level directory of your FV3-build
 
-    c) source ~/setenv_develop.sh script and execute the model run using the wrapper run_macosx_no_ccpp.sh (same for run_macosx_ccpp.sh)
-        . ~/setenv_develop.sh
-        ./run_macosx_no_ccpp.sh 2>&1 | tee run_macosx.log
-        # or, with X OpenMP threads
-        OMP_NUM_THREADS=X ./run_macosx_no_ccpp.sh 2>&1 | tee run_macosx.log
+    c) source ~/setenv_develop_nemsfv3gfs.sh and execute the model run using the wrapper run_macosx.sh
+        . ~/setenv_develop_nemsfv3gfs.sh
+        ./run_macosx.sh 2>&1 | tee run_macosx.log
+        # or, with N OpenMP threads (use N=1 for the dynamic CCPP build)
+        OMP_NUM_THREADS=N ./run_macosx.sh 2>&1 | tee run_macosx.log
 
     d) go and get yourself a cup of coffee ...
