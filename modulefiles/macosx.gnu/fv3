@@ -14,16 +14,7 @@ export CXX=${MPICXX:-mpicxx}
 export F77=${MPIF77:-mpif77}
 export F90=${MPIF90:-mpif90}
 export FC=${MPIFORT:-mpifort}
-#export CPP="/usr/local/bin/mpif90 -E -x f95-cpp-input"
-#export LDFLAGS="-L/usr/local/opt/zlib/lib -L/usr/local/opt/llvm/lib"
-#export CPPFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/llvm/include"
-#export CFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/llvm/include"
-#export CXXFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/llvm/include"
-#export FFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/llvm/include"
-#export FCFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/llvm/include"
-#export PATH="/usr/local/opt/llvm/bin${PATH:+:$PATH}"
-#export LD_LIBRARY_PATH="/usr/local/opt/zlib/lib:/usr/local/opt/llvm/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
-#export DYLD_LIBRARY_PATH="/usr/local/opt/zlib/lib:/usr/local/opt/llvm/lib:${DYLD_LIBRARY_PATH:+:$DYLD_LIBRARY_PATH}"
+export CPP=${CPP:-"${MPIF90} -E -x f95-cpp-input"}
 
 ##
 ## use homebrew NetCDF library
@@ -43,12 +34,12 @@ fi
 ##
 ## use pre-compiled EMSF library for above compiler / MPI combination
 ##
-export ESMFMKFILE=${ESMFMKFILE:-/usr/local/esmf-8.0.0_bs21/lib/esmf.mk}
+export ESMFMKFILE=${ESMFMKFILE:-/usr/local/esmf-8.0.0_bs40/lib/esmf.mk}
 
 ##
 ## NCEP libraries (need to download and build manually, see doc/README_MACOSX.txt and https://github.com/NCAR/NCEPlibs)
 ##
-export NCEPLIBS_DIR=${NCEPLIBS_DIR:-/usr/local/NCEPlibs-20181105}
+export NCEPLIBS_DIR=${NCEPLIBS_DIR:-/usr/local/NCEPlibs-20190811}
 export NEMSIO_INC=${NCEPLIBS_DIR}/include
 export BACIO_LIB4=${NCEPLIBS_DIR}/lib/libbacio_4.a
 export SP_LIBd=${NCEPLIBS_DIR}/lib/libsp_v2.0.2_d.a
@@ -59,6 +50,6 @@ export NEMSIO_LIB=${NCEPLIBS_DIR}/lib/libnemsio_d.a
 ##
 ## Intel MKL library
 ##
-export MKL_DIR=${MKL_DIR:-/usr/local/mkl/compilers_and_libraries_2018.3.185/mac/mkl}
+export MKL_DIR=${MKL_DIR:-/opt/intel/compilers_and_libraries_2019.4.233/mac/mkl}
 export MKL_INC="-m64 -I${MKL_DIR}/include"
 export MKL_LIB="-L${MKL_DIR}/lib -Wl,-rpath,${MKL_DIR}/lib -lmkl_intel_lp64 -lmkl_sequential -lmkl_core -lpthread -lm -ldl"
