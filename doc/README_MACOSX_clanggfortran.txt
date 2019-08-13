@@ -147,6 +147,7 @@ export MKL_DIR=/opt/intel/compilers_and_libraries_2019.4.233/mac/mkl
     # Fix wrong ID in libesmf.dylib - this will hopefully be addressed in future ESMF releases
     #
     install_name_tool -id $ESMF_INSTALL_PREFIX/lib/libesmf.dylib lib/libesmf.dylib
+    install_name_tool -id $ESMF_INSTALL_PREFIX/lib/libesmf_fullylinked.dylib lib/libesmf_fullylinked.dylib
     #
     # Clean up
     cd /usr/local/src
@@ -199,6 +200,7 @@ export MKL_DIR=/opt/intel/compilers_and_libraries_2019.4.233/mac/mkl
 
 11. Build model. Change to top-level directory of NEMSfv3gfs-gmtb-develop-20190811
 
+    . ~/setenv_develop_nemsfv3gfs.sh
     cd tests
     # Note: omit '32BIT=Y' to compile dynamics in double precision (slower to run)
     ./compile.sh $PWD/../FV3 macosx.gnu '32BIT=Y CCPP=N'                             2>&1 | tee log.compile # without CCPP
