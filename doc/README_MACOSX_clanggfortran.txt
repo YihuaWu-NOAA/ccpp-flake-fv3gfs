@@ -32,7 +32,7 @@ steps 6-11, these differences can be ignored. It is also assumed that the bash s
 3. Use homebrew to install the following packages
 
     a) Install gcc-9.1.0, gfortran-9.1.0
-    brew install gcc
+    brew install gcc@9
 
     b) Install clang-8.0.1 with openmp support
     brew install llvm
@@ -65,6 +65,11 @@ steps 6-11, these differences can be ignored. It is also assumed that the bash s
 
 echo "Setting environment variables for develop-NEMSfv3gfs"
 
+export PATH="/usr/local/opt/llvm/bin:$PATH"
+export CPPFLAGS="-I/usr/local/opt/llvm/include"
+export LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
+export LIBS_OPENMP="-L/usr/local/opt/llvm/lib -lomp"
+
 export CC=/usr/local/opt/llvm/bin/clang
 export CXX=/usr/local/opt/llvm/bin/clang++
 export FC=/usr/local/bin/gfortran
@@ -76,9 +81,6 @@ export MPICXX="mpicxx -cxx=${CXX}"
 export MPIFORT=/usr/local/bin/mpifort
 export MPIF77=/usr/local/bin/mpif77
 export MPIF90=/usr/local/bin/mpif90
-
-export LDFLAGS="-L/usr/local/opt/llvm/lib"
-export LIBS_OPENMP="-L/usr/local/opt/llvm/lib -lomp"
 
 export HDF5=/usr/local
 export NETCDF=/usr/local
@@ -203,9 +205,9 @@ export MKL_DIR=/opt/intel/compilers_and_libraries_2019.4.233/mac/mkl
     . ~/setenv_develop_nemsfv3gfs.sh
     cd tests
     # Note: omit '32BIT=Y' to compile dynamics in double precision (slower to run)
-    ./compile.sh $PWD/../FV3 macosx.gnu '32BIT=Y CCPP=N'                             2>&1 | tee log.compile # without CCPP
-    ./compile.sh $PWD/../FV3 macosx.gnu '32BIT=Y CCPP=Y'                             2>&1 | tee log.compile # with CCPP, dynamic mode
-    ./compile.sh $PWD/../FV3 macosx.gnu '32BIT=Y CCPP=Y STATIC=Y SUITES=FV3_GFS_v15' 2>&1 | tee log.compile # with CCPP, static mode, GFS_v15 operational suite
+    ./compile.sh $PWD/../FV3 macosx.gnu '32BIT=Y CCPP=N' 2>&1 | tee log.compile                                     # without CCPP
+    ./compile.sh $PWD/../FV3 macosx.gnu '32BIT=Y CCPP=Y' 2>&1 | tee log.compile                                     # with CCPP, dynamic mode
+    ./compile.sh $PWD/../FV3 macosx.gnu '32BIT=Y CCPP=Y STATIC=Y SUITES=FV3_GFS_2017_gfdlmp' 2>&1 | tee log.compile # with CCPP, static mode, GFS suite
 
 12. Set up the run directory using the template on Theia or Cheyenne at some location on your machine:
 

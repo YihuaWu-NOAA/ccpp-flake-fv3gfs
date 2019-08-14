@@ -197,9 +197,9 @@ export MKL_DIR=/opt/intel/compilers_and_libraries_2019.4.233/mac/mkl
     . ~/setenv_develop_nemsfv3gfs.sh
     cd tests
     # Note: omit '32BIT=Y' to compile dynamics in double precision (slower to run)
-    ./compile.sh $PWD/../FV3 macosx.gnu '32BIT=Y CCPP=N'                             2>&1 | tee log.compile # without CCPP
-    ./compile.sh $PWD/../FV3 macosx.gnu '32BIT=Y CCPP=Y'                             2>&1 | tee log.compile # with CCPP, dynamic mode
-    ./compile.sh $PWD/../FV3 macosx.gnu '32BIT=Y CCPP=Y STATIC=Y SUITES=FV3_GFS_v15' 2>&1 | tee log.compile # with CCPP, static mode, GFS_v15 operational suite
+    ./compile.sh $PWD/../FV3 macosx.gnu '32BIT=Y CCPP=N' 2>&1 | tee log.compile                                     # without CCPP
+    ./compile.sh $PWD/../FV3 macosx.gnu '32BIT=Y CCPP=Y' 2>&1 | tee log.compile                                     # with CCPP, dynamic mode
+    ./compile.sh $PWD/../FV3 macosx.gnu '32BIT=Y CCPP=Y STATIC=Y SUITES=FV3_GFS_2017_gfdlmp' 2>&1 | tee log.compile # with CCPP, static mode, GFS suite
 
 12. Set up the run directory using the template on Theia or Cheyenne at some location on your machine:
 
