@@ -5,6 +5,7 @@ set -eu
 
 # List of valid/tested machines
 VALID_MACHINES=( wcoss_cray wcoss_dell_p3 gaea.intel jet.intel theia.intel theia.gnu theia.pgi \
+                 hera.intel \
                  cheyenne.intel cheyenne.intel-impi cheyenne.gnu cheyenne.pgi endeavor.intel \
                  stampede.intel supermuc_phase2.intel macosx.gnu linux.gnu )
 
@@ -106,7 +107,7 @@ elif [[ "${MAKE_OPT}" == *"REPRO=Y"* ]]; then
   CCPP_MAKE_FLAGS="${CCPP_MAKE_FLAGS} VERBOSE=1"
 else
   CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DCMAKE_BUILD_TYPE=Release"
-  if [[ "${MACHINE_ID}" == "jet.intel" ]]; then
+  if [[ "${MACHINE_ID}" == "jet.intel" || "${MACHINE_ID}" == "hera.intel" ]]; then
     CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DSIMDMULTIARCH=ON"
   fi
   CCPP_MAKE_FLAGS="${CCPP_MAKE_FLAGS} VERBOSE=1"
