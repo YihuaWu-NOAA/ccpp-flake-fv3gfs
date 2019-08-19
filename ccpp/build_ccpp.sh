@@ -29,6 +29,7 @@ function usage   {
   echo "                                   SUITES=ABC,XYZ  (comma-separated list of CCPP suites; "
   echo "                                                    corresponding filenames: suite_ABC.xml. ...)"
   echo "                                   MULTI_GASES=Y/N (default N)"
+  echo "                                   INTEL16=Y/N     (default N)"
   echo "           clean_before [optional] can be 'YES' (default) or 'NO'"
   echo "           clean_after  [optional] can be 'YES' (default) or 'NO'"
   exit 1
@@ -138,9 +139,14 @@ if [[ "${MAKE_OPT}" == *"MULTI_GASES=Y"* ]]; then
 else
   CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DMULTI_GASES=OFF"
 fi
-
-CCPP_CMAKE_FLAGS=$(trim "${CCPP_CMAKE_FLAGS}")
-CCPP_MAKE_FLAGS=$(trim "${CCPP_MAKE_FLAGS}")
+if [[ "${MAKE_OPT}" == *"INTEL16=Y"* ]]; then
+  CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DLEGACY_INTEL=ON"
+elif [[ "${MACHINE_ID}" == "wcoss_cray" ]]; then
+  echo "In ccpp_build.sh: flag to cmake that wcoss_cray uses Intel 16"
+  CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DLEGACY_INTEL=ON"
+else
+  CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DLEGACY_INTEL=OFF"
+fi
 
 # Generate additional CCPP cmake flags depending on machine / compiler
 if [[ "${MACHINE_ID}" == "macosx.gnu" ]]; then
@@ -156,9 +162,6 @@ elif [[ "${MACHINE_ID}" == "linux.gnu" ]]; then
   # netCDF (needed when linking ESMF)
   CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DNETCDF_DIR=${NETCDF}"
 elif [[ "${MACHINE_ID}" == "gaea.intel" || "${MACHINE_ID}" == "wcoss_cray" ]]; then
-  # DH* TODO CHECK IF THIS IS NEEDED FOR STATIC BUILD? OR AT ALL?
-  CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DESMF_LIB_DIR=${ESMF_LIB}"
-  # *DH
   # Fix broken libxml2 installation on gaea by
   # using own version (not known to the system)
   if [[ "${MACHINE_ID}" == "gaea.intel" ]]; then
@@ -179,6 +182,9 @@ elif [[ "${MACHINE_ID}" == "gaea.intel" || "${MACHINE_ID}" == "wcoss_cray" ]]; t
   fi
   # *DH
 fi
+
+CCPP_CMAKE_FLAGS=$(trim "${CCPP_CMAKE_FLAGS}")
+CCPP_MAKE_FLAGS=$(trim "${CCPP_MAKE_FLAGS}")
 
 # Build and install CCPP
 
