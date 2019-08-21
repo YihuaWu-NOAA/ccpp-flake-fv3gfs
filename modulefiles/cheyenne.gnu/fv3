@@ -24,7 +24,7 @@ module load netcdf/4.6.3
 ##
 ## use pre-compiled EMSF library for above compiler / MPI combination
 ##
-set ESMF_DIR /glade/p/ral/jntp/GMTB/tools/esmf-8.0.0_bs21/gnu-8.3.0/mpt-2.19
+set ESMF_DIR /glade/p/ral/jntp/GMTB/tools/esmf-8.0.0_bs40/gnu-8.3.0/mpt-2.19
 setenv ESMF_DIR              ${ESMF_DIR}
 setenv ESMFMKFILE            ${ESMF_DIR}/lib/esmf.mk
 prepend-path PATH            ${ESMF_DIR}/bin
