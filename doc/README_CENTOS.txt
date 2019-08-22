@@ -164,8 +164,8 @@ step 4, these differences can be ignored. It is also assumed that the bash shell
     export ESMF_INSTALL_MODDIR=mod
     make info 2>&1 | tee log.info
     make 2>&1 | tee log.make
+    # "make check" is optional and can take very long time
     make check 2>&1 | tee log.check
-    # ... this takes forever ...
     # SYSTEM TESTS SUMMARY
     # Found 45 multi-processor system tests, 44 passed and 1 failed.
     # UNIT TESTS SUMMARY
