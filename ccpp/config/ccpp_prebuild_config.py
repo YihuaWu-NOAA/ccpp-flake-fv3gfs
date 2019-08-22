@@ -228,6 +228,7 @@ SCHEME_FILES = {
     'ccpp/physics/physics/sfc_drv_ruc.F90'                   : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_diff.f'                        : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_drv.f'                         : [ 'slow_physics' ],
+    'ccpp/physics/physics/noahmp_pre.F90'                    : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_noahmp_drv.f'                  : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_nst.f'                         : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_ocean.F'                       : [ 'slow_physics' ],
