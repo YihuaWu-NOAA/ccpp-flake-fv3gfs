@@ -202,6 +202,11 @@ step 4, these differences can be ignored. It is also assumed that the bash shell
     export NCEPLIBS_DIR=/usr/local/NCEPlibs-20190820
     export NETCDF=/usr/local
     export ESMFMKFILE=/usr/local/esmf-8.0.0_bs40/lib/esmf.mk
+    export CC=mpicc
+    export CXX=mpicxx
+    export F77=mpif77
+    export F90=mpif90
+    export FC=mpif90
 
     ./compile.sh $PWD/../FV3 linux.gnu 'CCPP=N' 2>&1 | tee log.compile # without CCPP
     ./compile.sh $PWD/../FV3 linux.gnu 'CCPP=Y' 2>&1 | tee log.compile # with CCPP, dynamic mode
