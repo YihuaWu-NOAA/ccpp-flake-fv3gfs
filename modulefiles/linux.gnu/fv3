@@ -9,11 +9,11 @@ echo "Setting environment variables for NEMSfv3gfs on Linux with gcc/gfortran"
 ##
 ## load programming environment: compiler, flags, paths
 ##
-export CC=${CC:-/usr/local/bin/mpicc}
-export CXX=${CXX:-/usr/local/bin/mpicxx}
-export F77=${F77:-/usr/local/bin/mpif77}
-export F90=${F90:-/usr/local/bin/mpif90}
-export FC=${FC:-/usr/local/bin/mpif90}
+export CC=${CC:-mpicc}
+export CXX=${CXX:-mpicxx}
+export F77=${F77:-mpif77}
+export F90=${F90:-mpif90}
+export FC=${FC:-mpif90}
 
 ##
 ## use own NetCDF library
@@ -33,13 +33,13 @@ fi
 ##
 ## use pre-compiled EMSF library for above compiler / MPI combination
 ##
-ESMF_VERSION=esmf-7.1.0r
-export ESMFMKFILE=${ESMFMKFILE:-/usr/local/${ESMF_VERSION}/lib/libO/Linux.gfortran.64.mpich3.default/esmf.mk}
+ESMF_VERSION=8.0.0_bs40
+export ESMFMKFILE=${ESMFMKFILE:-/usr/local/${ESMF_VERSION}/lib/esmf.mk}
 
 ##
 ## NCEP libraries (need to download and build manually, see doc/README_{UBUNTU,CENTOS,...}.txt and https://github.com/NCAR/NCEPlibs)
 ##
-export NCEPLIBS_DIR=${NCEPLIBS_DIR:-/usr/local/NCEPlibs-gnu-20181105}
+export NCEPLIBS_DIR=${NCEPLIBS_DIR:-/usr/local/NCEPlibs-20190820}
 export NEMSIO_INC=${NCEPLIBS_DIR}/include
 export BACIO_LIB4=${NCEPLIBS_DIR}/lib/libbacio_4.a
 export SP_LIBd=${NCEPLIBS_DIR}/lib/libsp_v2.0.2_d.a

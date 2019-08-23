@@ -126,6 +126,7 @@ export MKL_DIR=/opt/intel/compilers_and_libraries_2019.4.233/mac/mkl
     #
     make info 2>&1 | tee log.info
     make 2>&1 | tee log.make
+    # "make check" is optional and can take very long time
     make check 2>&1 | tee log.check
     # SYSTEM TESTS SUMMARY
     # Found 45 multi-processor system tests, 38 passed and 7 failed.
