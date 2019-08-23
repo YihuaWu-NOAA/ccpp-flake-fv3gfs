@@ -1,34 +1,133 @@
 # Dom Heinzeller (dom.heinzeller@noaa.gov), 08/21/2019
 
-In order to build and run the FV3 trunk (August 2019) with possible CCPP extensions by GMTB on Ubuntu Linux,
+In order to build and run the FV3 trunk (August 2019) with possible CCPP extensions by GMTB on CentOS Linux,
 the following installation steps are recommended. The version numbers correspond to the default versions in
 August 2019 and will change to newer versions in the future. Unless problems occur during the manual builds in
 step 4, these differences can be ignored. It is also assumed that the bash shell is used in the following.
 
-1. Install Ubuntu Linux 18.04.1 LTS or start up cloud instance (e.g. Amazon AWS) with Ubuntu Linux 18.04.1 LTS
+1. Install CentOS 7 (minimal install or more) or start up cloud instance (e.g. Amazon AWS) with Centos 7
 
-2. Install standard packages as root (sudo su)
+2. Install standard packages as root (su)
 
-    apt update
-    apt install ssh
-    apt install gfortran libgfortran-7-dev
-    apt install g++ libstdc++-7-dev
-    apt install make
-    apt install cmake
-    apt install m4
-    apt install ksh
-    apt install git
-    apt install python
-    apt install libxml2-dev
-    apt install libnetcdff-dev
-    apt install mpich
-    ln -s /usr/bin/make /usr/bin/gmake
-
-    export NETCDF=/usr
+    yum update
+    yum install -y net-tools
+    yum install -y gcc-gfortran
+    yum install -y gcc-c++
+    yum install -y screen
+    yum install -y wget
+    yum install -y cmake
+    yum install -y bzip2
+    yum install -y texinfo
+    yum install -y autogen
+    yum install -y dejagnu
+    yum install -y byacc
+    yum install -y curl-devel
+    yum install -y m4
+    yum install -y git
+    yum install -y libxml2-devel
 
 3. Install thirdparty libraries
 
     mkdir -p /usr/local/src && cd /usr/local/src
+
+    # gcc-8.3.0
+    wget http://ftp.mirrorservice.org/sites/sourceware.org/pub/gcc/releases/gcc-8.3.0/gcc-8.3.0.tar.gz
+    tar -xvf gcc-8.3.0.tar.gz
+    cd gcc-8.3.0
+    ./contrib/download_prerequisites # if this hangs, need to change the ftp URLs to https URLs in the script (behind firewall?)
+    ./configure \
+    --disable-multilib \
+    --enable-languages=c,c++,fortran \
+    --prefix=/usr/local 2>&1 | tee log.config
+    make 2>&1 | tee log.make
+    make install 2>&1 | tee log.install
+    cd ..
+    rm -fr gcc-8.3.0
+
+    export LD_LIBRARY_PATH="/usr/local/lib:/usr/local/lib64:$LD_LIBRARY_PATH"
+
+    # mpich-3.3.1
+    wget http://www.mpich.org/static/downloads/3.3.1/mpich-3.3.1.tar.gz
+    tar -xvzf mpich-3.3.1.tar.gz
+    cd mpich-3.3.1
+    ./configure \
+    --prefix=/usr/local 2>&1 | tee log.config
+    make 2>&1 | tee log.make
+    make install 2>&1 | tee log.install
+    cd ..
+    rm -fr mpich-3.3.1
+
+    # netcdf-4.7.0
+    wget https://www.zlib.net/zlib-1.2.11.tar.gz
+    wget https://support.hdfgroup.org/ftp/lib-external/szip/2.1.1/src/szip-2.1.1.tar.gz
+    # go to https://www.hdfgroup.org/downloads/hdf5/source-code/ and download hdf5-1.10.5.tar.bz2
+    wget https://www.unidata.ucar.edu/downloads/netcdf/ftp/netcdf-c-4.7.0.tar.gz
+    wget https://www.unidata.ucar.edu/downloads/netcdf/ftp/netcdf-fortran-4.4.5.tar.gz
+    #
+    tar -xvzf zlib-1.2.11.tar.gz
+    cd zlib-1.2.11
+    ./configure \
+    --prefix=/usr/local \
+    --static 2>&1 | tee log.config
+    make 2>&1 | tee log.make
+    make install 2>&1 | tee log.install
+    make distclean 2>&1 | tee log.distclean
+    ./configure \
+    --prefix=/usr/local 2>&1 | tee log.config
+    make 2>&1 | tee log.make
+    make install 2>&1 | tee log.install
+    cd ..
+    rm -fr zlib-1.2.11
+    #
+    tar -xvzf szip-2.1.1.tar.gz
+    cd szip-2.1.1
+    ./configure \
+    --prefix=/usr/local 2>&1 | tee log.config
+    make 2>&1 | tee log.make
+    make install 2>&1 | tee log.install
+    cd ..
+    rm -fr szip-2.1.1
+    #
+    tar -xvjf hdf5-1.10.5.tar.bz2
+    cd hdf5-1.10.5
+    CC=mpicc \
+    CXX=mpicxx \
+    FC=mpif90 \
+    ./configure \
+    --prefix=/usr/local \
+    --enable-parallel \
+    --with-zlib=/usr/local \
+    --with-szlib=/usr/local 2>&1 | tee log.config
+    make 2>&1 | tee log.make
+    make install 2>&1 | tee log.install
+    cd ..
+    rm -fr hdf5-1.10.5
+    #
+    tar -xvzf netcdf-c-4.7.0.tar.gz
+    cd netcdf-c-4.7.0
+    CC=mpicc \
+    CXX=mpicxx \
+    FC=mpif90 \
+    ./configure \
+    --prefix=/usr/local \
+    --enable-parallel-tests 2>&1 | tee log.config
+    make 2>&1 | tee log.make
+    make install 2>&1 | tee log.install
+    cd ..
+    rm -fr netcdf-c-4.7.0
+    #
+    tar -xvzf netcdf-fortran-4.4.5.tar.gz
+    cd netcdf-fortran-4.4.5
+    CC=mpicc \
+    CXX=mpicxx \
+    FC=mpif90 \
+    ./configure \
+    --prefix=/usr/local \
+    --enable-parallel-tests 2>&1 | tee log.config
+    make 2>&1 | tee log.make
+    make install 2>&1 | tee log.install
+    #
+    export NETCDF=/usr/local
 
     # NCEP libraries
     git clone https://github.com/NCAR/NCEPlibs.git
@@ -68,9 +167,9 @@ step 4, these differences can be ignored. It is also assumed that the bash shell
     # "make check" is optional and can take very long time
     make check 2>&1 | tee log.check
     # SYSTEM TESTS SUMMARY
-    # Found 45 multi-processor system tests, 45 passed and 0 failed.
+    # Found 45 multi-processor system tests, 44 passed and 1 failed.
     # UNIT TESTS SUMMARY
-    # Found 3466 non-exhaustive multi-processor unit tests, 3464 passed and 2 failed.
+    # Found 3466 non-exhaustive multi-processor unit tests, 3466 passed and 0 failed.
     # --> ignore and proceed
     make install 2>&1 | tee log.install
     make installcheck 2>&1 | tee log.installcheck
@@ -99,8 +198,9 @@ step 4, these differences can be ignored. It is also assumed that the bash shell
 
     cd ~/scratch/NEMSfv3gfs/tests
 
+    export LD_LIBRARY_PATH="/usr/local/lib:/usr/local/lib64:$LD_LIBRARY_PATH"
     export NCEPLIBS_DIR=/usr/local/NCEPlibs-20190820
-    export NETCDF=/usr
+    export NETCDF=/usr/local
     export ESMFMKFILE=/usr/local/esmf-8.0.0_bs40/lib/esmf.mk
     export CC=mpicc
     export CXX=mpicxx
@@ -125,7 +225,7 @@ step 4, these differences can be ignored. It is also assumed that the bash shell
     c) set the environment variables as above (consider creating a shell script to source?) and run the model
 
        export NCEPLIBS_DIR=/usr/local/NCEPlibs-20190820
-       export NETCDF=/usr
+       export NETCDF=/usr/local
        export ESMFMKFILE=/usr/local/esmf-8.0.0_bs40/lib/esmf.mk
 
        ./run_linux.sh 2>&1 | tee run_linux.log
