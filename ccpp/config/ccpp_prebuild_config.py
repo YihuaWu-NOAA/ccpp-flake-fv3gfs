@@ -93,7 +93,6 @@ SCHEME_FILES_DEPENDENCIES = [
     'ccpp/physics/physics/module_sf_mynn.F90',
     'ccpp/physics/physics/module_sf_noahmp_glacier.f90',
     'ccpp/physics/physics/module_sf_noahmplsm.f90',
-    'ccpp/physics/physics/module_wrf_utl.f90',
     'ccpp/physics/physics/namelist_soilveg.f',
     'ccpp/physics/physics/mfpblt.f',
     'ccpp/physics/physics/mfscu.f',
