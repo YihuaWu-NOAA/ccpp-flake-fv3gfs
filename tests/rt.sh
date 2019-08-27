@@ -5,6 +5,7 @@ hostname
 
 die() { echo "$@" >&2; exit 1; }
 usage() {
+  set +x
   echo
   echo "Usage: $0 -c <model> | -f | -s | -l <file> | -m | -k | -r | -e | -h"
   echo
@@ -18,6 +19,7 @@ usage() {
   echo "  -e  use ecFlow workflow manager"
   echo "  -h  display this help"
   echo
+  set -x
   exit 1
 }
 
@@ -152,6 +154,32 @@ elif [[ $MACHINE_ID = gaea.* ]]; then
   # default scheduler on Gaea
   SCHEDULER=slurm
   cp fv3_conf/fv3_slurm.IN_gaea fv3_conf/fv3_slurm.IN
+
+elif [[ $MACHINE_ID = hera.* ]]; then
+
+  export NCEPLIBS=/scratch1/NCEPDEV/global/gwv/l819/lib
+  source $PATHTR/NEMS/src/conf/module-setup.sh.inc
+  # Re-instantiate COMPILER in case it gets deleted by module purge
+  COMPILER=${NEMS_COMPILER:-intel}
+
+  module load rocoto
+  ROCOTORUN=$(which rocotorun)
+  ROCOTOSTAT=$(which rocotostat)
+  export PATH=/scratch4/NCEPDEV/meso/save/Dusan.Jovic/ecflow/bin:$PATH
+  export PYTHONPATH=/scratch4/NCEPDEV/meso/save/Dusan.Jovic/ecflow/lib/python2.7/site-packages
+  ECFLOW_START=/scratch4/NCEPDEV/meso/save/Dusan.Jovic/ecflow/bin/ecflow_start.sh
+  ECF_PORT=$(( $(id -u) + 1500 ))
+  QUEUE=debug
+#  ACCNR=fv3-cpu
+  PARTITION=
+  dprefix=/scratch1/NCEPDEV
+  DISKNM=$dprefix/nems/emc.nemspara/RT
+  STMP=/scratch1/BMC/gmtb
+  PTMP=/scratch1/BMC/gmtb
+
+  # default scheduler on Hera
+  SCHEDULER=slurm
+  cp fv3_conf/fv3_slurm.IN_hera fv3_conf/fv3_slurm.IN
 
 elif [[ $MACHINE_ID = theia.* ]]; then
 
@@ -370,6 +398,10 @@ if [[ $ROCOTO == true ]]; then
     QUEUE=dev
     COMPILE_QUEUE=dev_transfer
     ROCOTO_SCHEDULER=lsf
+  elif [[ $MACHINE_ID = hera.* ]]; then
+    QUEUE=batch
+    COMPILE_QUEUE=service
+    ROCOTO_SCHEDULER=moabtorque
   elif [[ $MACHINE_ID = theia.* ]]; then
     QUEUE=batch
     COMPILE_QUEUE=service
@@ -422,6 +454,8 @@ EOF
     QUEUE=dev
   elif [[ $MACHINE_ID = wcoss_dell_p3 ]]; then
     QUEUE=dev
+  elif [[ $MACHINE_ID = hera.* ]]; then
+    QUEUE=batch
   elif [[ $MACHINE_ID = theia.* ]]; then
     QUEUE=batch
   elif [[ $MACHINE_ID = jet.* ]]; then
