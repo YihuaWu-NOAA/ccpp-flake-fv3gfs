@@ -108,7 +108,9 @@ elif [[ "${MAKE_OPT}" == *"REPRO=Y"* ]]; then
   CCPP_MAKE_FLAGS="${CCPP_MAKE_FLAGS} VERBOSE=1"
 else
   CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DCMAKE_BUILD_TYPE=Release"
-  if [[ "${MACHINE_ID}" == "jet.intel" || "${MACHINE_ID}" == "hera.intel" ]]; then
+  # Don't use the AVX512 flags yet on hera
+  #if [[ "${MACHINE_ID}" == "jet.intel" || "${MACHINE_ID}" == "hera.intel" ]]; then
+  if [[ "${MACHINE_ID}" == "jet.intel" ]]; then
     CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DSIMDMULTIARCH=ON"
   fi
   CCPP_MAKE_FLAGS="${CCPP_MAKE_FLAGS} VERBOSE=1"
