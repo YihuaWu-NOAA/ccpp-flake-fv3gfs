@@ -18,3 +18,7 @@
 	path = FMS
 	url = https://github.com/NCAR/FMS
 	branch = GFS-FMS
+[submodule "WW3"]
+	path = WW3
+	url = https://github.com/NCAR/gmtb-ww3
+	branch = gmtb/develop
