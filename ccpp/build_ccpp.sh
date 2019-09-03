@@ -90,7 +90,7 @@ echo "Obtained ESMF_LIB=${ESMF_LIB} from ${ESMFMKFILE}"
 
 # Account for inconsistencies in HPC modules: if environment variable
 # NETCDF is undefined, try to set from NETCDF_DIR, NETCDF_ROOT, ...
-if [[ "${MACHINE_ID}" == "wcoss_cray" ]]; then
+if [[ "${MACHINE_ID}" == "wcoss_cray" || "${MACHINE_ID}" == "gaea.intel" ]]; then
   NETCDF=${NETCDF:-${NETCDF_DIR}}
 fi
 
