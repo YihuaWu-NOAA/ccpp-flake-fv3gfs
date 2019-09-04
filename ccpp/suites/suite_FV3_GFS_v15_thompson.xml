@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<suite name="FV3_GSD_v0" lib="ccppphys" ver="3">
+<suite name="FV3_GFS_v15_thompson" lib="ccppphys" ver="3">
   <!-- <init></init> -->
   <group name="time_vary">
     <subcycle loop="1">
@@ -8,6 +8,8 @@
       <scheme>GFS_rrtmg_setup</scheme>
       <scheme>GFS_rad_time_vary</scheme>
       <scheme>GFS_phys_time_vary</scheme>
+      <scheme>stochastic_physics</scheme>
+      <scheme>stochastic_physics_sfc</scheme>
     </subcycle>
   </group>
   <group name="radiation">
@@ -15,12 +17,10 @@
       <scheme>GFS_suite_interstitial_rad_reset</scheme>
       <scheme>GFS_rrtmg_pre</scheme>
       <scheme>rrtmg_sw_pre</scheme>
-      <scheme>mynnrad_pre</scheme>
       <scheme>rrtmg_sw</scheme>
       <scheme>rrtmg_sw_post</scheme>
       <scheme>rrtmg_lw_pre</scheme>
       <scheme>rrtmg_lw</scheme>
-      <scheme>mynnrad_post</scheme>
       <scheme>rrtmg_lw_post</scheme>
       <scheme>GFS_rrtmg_post</scheme>
     </subcycle>
@@ -43,10 +43,8 @@
       <scheme>sfc_nst_pre</scheme>
       <scheme>sfc_nst</scheme>
       <scheme>sfc_nst_post</scheme>
-      <scheme>lsm_ruc</scheme>
-      <scheme>lsm_ruc_sfc_sice_pre</scheme>
+      <scheme>lsm_noah</scheme>
       <scheme>sfc_sice</scheme>
-      <scheme>lsm_ruc_sfc_sice_post</scheme>
       <scheme>GFS_surface_loop_control_part2</scheme>
     </subcycle>
     <!-- End of surface iteration loop -->
@@ -56,8 +54,10 @@
       <scheme>sfc_diag</scheme>
       <scheme>sfc_diag_post</scheme>
       <scheme>GFS_surface_generic_post</scheme>
-      <scheme>mynnedmf_wrapper</scheme>
-      <scheme>GFS_GWD_generic_pre</scheme>
+      <scheme>GFS_PBL_generic_pre</scheme>
+      <scheme>hedmf</scheme>
+      <scheme>GFS_PBL_generic_post</scheme>
+      <scheme>gwdps_pre</scheme>
       <scheme>gwdps</scheme>
       <scheme>gwdps_post</scheme>
       <scheme>rayleigh_damp</scheme>
@@ -67,13 +67,14 @@
       <scheme>GFS_DCNV_generic_pre</scheme>
       <scheme>get_phi_fv3</scheme>
       <scheme>GFS_suite_interstitial_3</scheme>
-      <scheme>cu_gf_driver_pre</scheme>
-      <scheme>cu_gf_driver</scheme>
+      <scheme>samfdeepcnv</scheme>
       <scheme>GFS_DCNV_generic_post</scheme>
       <scheme>gwdc_pre</scheme>
       <scheme>gwdc</scheme>
       <scheme>gwdc_post</scheme>
       <scheme>GFS_SCNV_generic_pre</scheme>
+      <scheme>samfshalcnv</scheme>
+      <scheme>samfshalcnv_post</scheme>
       <scheme>GFS_SCNV_generic_post</scheme>
       <scheme>GFS_suite_interstitial_4</scheme>
       <scheme>cnvc90</scheme>
@@ -82,7 +83,6 @@
       <scheme>mp_thompson</scheme>
       <scheme>mp_thompson_post</scheme>
       <scheme>GFS_MP_generic_post</scheme>
-      <scheme>cu_gf_driver_post</scheme>
       <scheme>maximum_hourly_diagnostics</scheme>
     </subcycle>
   </group>

@@ -212,6 +212,7 @@ SCHEME_FILES = {
     'ccpp/physics/physics/sfc_diag.f'                        : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_diag_post.F90'                 : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_drv_ruc.F90'                   : [ 'slow_physics' ],
+    'ccpp/physics/physics/lsm_ruc_sfc_sice_interstitial.F90' : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_diff.f'                        : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_drv.f'                         : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_nst.f'                         : [ 'slow_physics' ],

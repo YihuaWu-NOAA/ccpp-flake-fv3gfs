@@ -1,12 +1,12 @@
 ###############################################################################
 #
-#  FV3 CCPP Thompson MP + MYNN PBL test
+#  FV3 CCPP Thompson MP with saturation adjustment test
 #
 ###############################################################################
 
-export TEST_DESCR="Compare FV3 CCPP Thompson MP + MYNN PBL results with previous trunk version"
+export TEST_DESCR="Compare FV3 CCPP Thompson MP with saturation adjustment results with previous trunk version"
 
-export CNTL_DIR=fv3_thompson_mynn
+export CNTL_DIR=fv3_thompson_satadj
 
 export LIST_FILES="atmos_4xdaily.tile1.nc \
                    atmos_4xdaily.tile2.nc \
@@ -77,17 +77,18 @@ export NODES=$(expr $TASKS / $TPN + 1)
 export DT_ATMOS="1200"
 export IMP_PHYSICS=8
 export DNATS=0
-export DO_SAT_ADJ=.F.
+export DO_SAT_ADJ=.T.
 export LRADAR=.T.
 export LTAEROSOL=.T.
+export DO_SAT_ADJ=.T.
 
 export FV3_RUN=ccpp_gsd_run.IN
-export CCPP_SUITE=FV3_GFS_v15_thompson_mynn
+export CCPP_SUITE=FV3_GFS_v15_thompson_satadj
 export CCPP_LIB_DIR=ccpp/lib
 export INPUT_NML=ccpp_gsd.nml.IN
 
-export HYBEDMF=.F.
-export DO_MYNNEDMF=.T.
+export HYBEDMF=.T.
+export DO_MYNNEDMF=.F.
 export IMFSHALCNV=2
 export IMFDEEPCNV=2
 
