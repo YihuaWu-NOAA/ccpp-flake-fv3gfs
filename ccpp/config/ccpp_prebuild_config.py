@@ -123,6 +123,7 @@ SCHEME_FILES_DEPENDENCIES = [
     'ccpp/physics/physics/radlw_param.f',
     'ccpp/physics/physics/radsw_datatb.f',
     'ccpp/physics/physics/radsw_param.f',
+    'ccpp/physics/physics/samfaerosols.F',
     'ccpp/physics/physics/sfcsub.F',
     'ccpp/physics/physics/sflx.f',
     'ccpp/physics/physics/set_soilveg.f',
