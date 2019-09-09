@@ -2100,6 +2100,10 @@ test fv3_stochy: fv3.exe {
     TEST_DESCR="Compare FV3 stochy results with previous trunk version"
     CNTL_NAME='fv3_stochy'
 
+    DO_SPPT='.T.'
+    DO_SHUM='.T.'
+    DO_SKEB='.T.'
+    DO_SFCPERTS='.F.'
     SKEB='0.3'
     SHUM='0.003'
     SPPT='0.2'
