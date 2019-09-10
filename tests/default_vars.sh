@@ -114,9 +114,16 @@ export MOUNTAIN=.F.
 export NA_INIT=1
 
 # Microphysics
+export IMP_PHYSICS=11
+# GFDL MP
+export DNATS=1
+export DO_SAT_ADJ=.T.
 export LHEATSTRG=.F.
 export LGFDLMPRAD=.F.
 export EFFR_IN=.F.
+# Thompson MP
+export LRADAR=.T.
+export LTAEROSOL=.T.
 
 # GWD
 export LDIAG_UGWP=.F.

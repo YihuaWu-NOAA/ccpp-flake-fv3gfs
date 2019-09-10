@@ -14,7 +14,9 @@ export CXX=${MPICXX:-mpicxx}
 export F77=${MPIF77:-mpif77}
 export F90=${MPIF90:-mpif90}
 export FC=${MPIFORT:-mpifort}
-export CPP=${CPP:-"${MPIF90} -E -x f95-cpp-input"}
+export CPP=${CPP:-"${F90} -E -x f95-cpp-input"}
+export MPICC=${MPICC:-mpicc}
+export MPIF90=${MPIF90:-mpif90}
 
 ##
 ## use homebrew NetCDF library

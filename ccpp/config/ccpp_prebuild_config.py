@@ -21,6 +21,10 @@ VARIABLE_DEFINITION_FILES = [
     ]
 
 TYPEDEFS_NEW_METADATA = {
+    'ccpp_types' : {
+        'ccpp_types' : '',
+        'ccpp_t' : 'cdata',
+        },
     'machine' : {
         'machine' : '',
         },
@@ -122,6 +126,7 @@ SCHEME_FILES_DEPENDENCIES = [
     'ccpp/physics/physics/radlw_param.f',
     'ccpp/physics/physics/radsw_datatb.f',
     'ccpp/physics/physics/radsw_param.f',
+    'ccpp/physics/physics/samfaerosols.F',
     'ccpp/physics/physics/sfcsub.F',
     'ccpp/physics/physics/sflx.f',
     'ccpp/physics/physics/set_soilveg.f',
@@ -134,33 +139,6 @@ SCHEME_FILES_DEPENDENCIES = [
     'ccpp/physics/physics/namelist_soilveg_ruc.F90',
     'ccpp/physics/physics/set_soilveg_ruc.F90',
     'ccpp/physics/physics/module_soil_pre.F90',
-    # stochastic physics
-    'ccpp/physics/stochastic_physics/spectral_layout.f',
-    'ccpp/physics/stochastic_physics/stochy_gg_def.f',
-    'ccpp/physics/stochastic_physics/stochy_resol_def.f',
-    'ccpp/physics/stochastic_physics/stochy_layout_lag.f',
-    'ccpp/physics/stochastic_physics/four_to_grid_stochy.F',
-    'ccpp/physics/stochastic_physics/glats_stochy.f',
-    'ccpp/physics/stochastic_physics/sumfln_stochy.f',
-    'ccpp/physics/stochastic_physics/gozrineo_stochy.f',
-    'ccpp/physics/stochastic_physics/get_ls_node_stochy.f',
-    'ccpp/physics/stochastic_physics/get_lats_node_a_stochy.f',
-    'ccpp/physics/stochastic_physics/setlats_a_stochy.f',
-    'ccpp/physics/stochastic_physics/setlats_lag_stochy.f',
-    'ccpp/physics/stochastic_physics/epslon_stochy.f',
-    'ccpp/physics/stochastic_physics/getcon_lag_stochy.f',
-    'ccpp/physics/stochastic_physics/pln2eo_stochy.f',
-    'ccpp/physics/stochastic_physics/dozeuv_stochy.f',
-    'ccpp/physics/stochastic_physics/dezouv_stochy.f',
-    'ccpp/physics/stochastic_physics/getcon_spectral.F90',
-    'ccpp/physics/stochastic_physics/stochy_namelist_def.F90',
-    'ccpp/physics/stochastic_physics/compns_stochy.F90',
-    'ccpp/physics/stochastic_physics/stochy_internal_state_mod.F90',
-    'ccpp/physics/stochastic_physics/stochy_patterngenerator.F90',
-    'ccpp/physics/stochastic_physics/stochy_data_mod.F90',
-    'ccpp/physics/stochastic_physics/get_stochy_pattern.F90',
-    'ccpp/physics/stochastic_physics/initialize_spectral_mod.F90',
-    'ccpp/physics/stochastic_physics/stochy_ccpp.F90',
     # derived data type definitions
     'FV3/gfsphysics/GFS_layer/GFS_typedefs.F90',
     'FV3/gfsphysics/CCPP_layer/CCPP_typedefs.F90',
@@ -238,6 +216,8 @@ SCHEME_FILES = {
     'ccpp/physics/physics/sfc_diag.f'                        : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_diag_post.F90'                 : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_drv_ruc.F90'                   : [ 'slow_physics' ],
+    'ccpp/physics/physics/lsm_ruc_sfc_sice_interstitial.F90' : [ 'slow_physics' ],
+    'ccpp/physics/physics/sfc_cice.f'                        : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_diff.f'                        : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_drv.f'                         : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_noahmp_pre.F90'                : [ 'slow_physics' ],
@@ -245,8 +225,6 @@ SCHEME_FILES = {
     'ccpp/physics/physics/sfc_nst.f'                         : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_ocean.F'                       : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_sice.f'                        : [ 'slow_physics' ],
-    # stochastic physics
-    'ccpp/physics/stochastic_physics/stochastic_physics.F90' : [ 'slow_physics' ],
     # for testing the <init> and <finalize> sections
     'ccpp/physics/physics/GFS_suite_init_finalize_test.F90'  : [ 'slow_physics' ],
     }
