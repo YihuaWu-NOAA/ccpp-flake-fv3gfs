@@ -319,6 +319,9 @@ FIELDS_INCLUDE_FILE = 'ccpp_fields_{set}.inc'
 # Directory where to write static API to
 STATIC_API_DIR = 'FV3/gfsphysics/CCPP_layer'
 
+# Directory for writing HTML pages generated from metadata files
+METADATA_HTML_OUTPUT_DIR = 'ccpp/physics/physics/docs'
+
 # HTML document containing the model-defined CCPP variables
 HTML_VARTABLE_FILE = 'ccpp/physics/CCPP_VARIABLES_FV3.html'
 
