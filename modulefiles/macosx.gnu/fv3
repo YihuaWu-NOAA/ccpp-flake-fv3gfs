@@ -37,7 +37,7 @@ fi
 ## use pre-compiled EMSF library for above compiler / MPI combination
 ##
 ESMF_VERSION=8.0.0_bs48
-export ESMFMKFILE=${ESMFMKFILE:-/usr/local/${ESMF_VERSION}/lib/esmf.mk}
+export ESMFMKFILE=${ESMFMKFILE:-/usr/local/esmf-${ESMF_VERSION}/lib/esmf.mk}
 
 ##
 ## NCEP libraries (need to download and build manually, see doc/README_MACOSX.txt and https://github.com/NCAR/NCEPlibs)
