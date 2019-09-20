@@ -506,12 +506,8 @@ while read -r line; do
       fi
 
       # Set RT_SUFFIX (regression test run directories and log files) and BL_SUFFIX
-      # (regression test baseline directories) for REPRO (IPD, CCPP) or PROD (CCPP) runs;
-      # avoid adding any suffices for TRANSITION tests (compare CCPP PROD against IPD PROD)
-      if [[ ${NEMS_VER^^} =~ "TRANSITION=Y" ]]; then
-        RT_SUFFIX=""
-        BL_SUFFIX=""
-      elif [[ ${NEMS_VER^^} =~ "REPRO=Y" ]]; then
+      # (regression test baseline directories) for REPRO (IPD, CCPP) or PROD (CCPP) runs
+      if [[ ${NEMS_VER^^} =~ "REPRO=Y" ]]; then
         RT_SUFFIX="_repro"
         BL_SUFFIX="_repro"
       elif [[ ${NEMS_VER^^} =~ "CCPP=Y" ]]; then
@@ -548,12 +544,8 @@ while read -r line; do
       fi
 
       # Set RT_SUFFIX (regression test run directories and log files) and BL_SUFFIX
-      # (regression test baseline directories) for REPRO (IPD, CCPP) or PROD (CCPP) runs;
-      # avoid adding any suffices for TRANSITION tests (compare CCPP PROD against IPD PROD)
-      if [[ ${NEMS_VER^^} =~ "TRANSITION=Y" ]]; then
-        RT_SUFFIX=""
-        BL_SUFFIX=""
-      elif [[ ${NEMS_VER^^} =~ "REPRO=Y" ]]; then
+      # (regression test baseline directories) for REPRO (IPD, CCPP) or PROD (CCPP) runs
+      if [[ ${NEMS_VER^^} =~ "REPRO=Y" ]]; then
         RT_SUFFIX="_repro"
         BL_SUFFIX="_repro"
       elif [[ ${NEMS_VER^^} =~ "CCPP=Y" ]]; then

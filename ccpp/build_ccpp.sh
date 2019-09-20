@@ -22,7 +22,6 @@ function usage   {
   echo "                                   SION=Y/N        (default N)"
   echo "                                   DEBUG=Y/N       (default N)"
   echo "                                   REPRO=Y/N       (default N)"
-  echo "                                   TRANSITION=Y/N  (default N)"
   echo "                                   OPENMP=Y/N      (default Y)"
   echo "                                   32BIT=Y/N       (default N, affects dynamics/fast physics only)"
   echo "                                   STATIC=Y/N      (default N, STATIC=Y requires SUITES=...)"
@@ -114,11 +113,6 @@ else
     CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DSIMDMULTIARCH=ON"
   fi
   CCPP_MAKE_FLAGS="${CCPP_MAKE_FLAGS} VERBOSE=1"
-fi
-if [[ "${MAKE_OPT}" == *"TRANSITION=Y"* ]]; then
-  CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DTRANSITION=ON"
-else
-  CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DTRANSITION=OFF"
 fi
 if [[ "${MAKE_OPT}" == *"OPENMP=N"* ]]; then
   CCPP_CMAKE_FLAGS="${CCPP_CMAKE_FLAGS} -DOPENMP=OFF"
