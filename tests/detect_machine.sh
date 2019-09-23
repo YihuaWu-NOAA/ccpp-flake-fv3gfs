@@ -130,7 +130,6 @@ fi
 echo "Machine: " $MACHINE_ID "    Account: " $ACCNR
 
 # --- for Theia, find available account ID
-#if [[ $1"" != "machineonly" ]] ; then
   if [[ ${MACHINE_ID} = theia.* ]]; then
 
     AP=account_params          # Account info
