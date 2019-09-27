@@ -16,7 +16,7 @@
 	branch = gmtb/develop
 [submodule "FMS"]
 	path = FMS
-	url = https://github.com/NCAR/FMS
+	url = https://github.com/NOAA-EMC/FMS
 	branch = GFS-FMS
 [submodule "WW3"]
 	path = WW3
