@@ -177,6 +177,7 @@ SCHEME_FILES = {
     'ccpp/physics/physics/cu_ntiedtke.F90'                   : [ 'slow_physics' ],
     'ccpp/physics/physics/cu_ntiedtke_post.F90'              : [ 'slow_physics' ],
     'ccpp/physics/physics/dcyc2.f'                           : [ 'slow_physics' ],
+    'ccpp/physics/physics/drag_suite.F90'                    : [ 'slow_physics' ],
     'ccpp/physics/physics/gcm_shoc.F90'                      : [ 'slow_physics' ],
     'ccpp/physics/physics/get_prs_fv3.F90'                   : [ 'slow_physics' ],
     'ccpp/physics/physics/gfdl_cloud_microphys.F90'          : [ 'slow_physics' ],
