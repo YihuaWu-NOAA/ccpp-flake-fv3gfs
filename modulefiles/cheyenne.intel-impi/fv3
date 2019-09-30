@@ -1,6 +1,6 @@
 #%Module######################################################################
 ##
-##    NEMS FV3 Prerequisites: Cheyenne/Intel
+##    NEMS FV3 Prerequisites: Cheyenne/Intel-iMPI
 
 proc ModulesHelp {} {
   puts stderr "\tcit - loads modules required for building and running FV3 under NEMS on Cheyenne/Intel with iMPI"
@@ -26,7 +26,7 @@ module use -a /glade/p/ral/jntp/GMTB/tools/modulefiles/intel-19.0.2/impi-2019.2.
 ##
 ## use pre-compiled EMSF library for above compiler / MPI combination
 ##
-module load esmf/8.0.0_bs48
+module load esmf/8.0.0_bs50
 
 ##
 ## NCEP libraries (download and build manually for the time being; https://github.com/NCAR/NCEPlibs)
