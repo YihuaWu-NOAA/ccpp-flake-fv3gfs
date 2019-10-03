@@ -129,6 +129,7 @@ export LTAEROSOL=.T.
 export LDIAG_UGWP=.F.
 export DO_UGWP=.F.
 export DO_TOFD=.F.
+export GWD_OPT=1
 
 # PBL
 export SATMEDMF=.F.
