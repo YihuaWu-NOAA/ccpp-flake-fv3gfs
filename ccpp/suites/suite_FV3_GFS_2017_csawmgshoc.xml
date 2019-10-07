@@ -56,8 +56,8 @@
       <scheme>moninshoc</scheme>
       <scheme>GFS_PBL_generic_post</scheme>
       <scheme>GFS_GWD_generic_pre</scheme>
-      <scheme>gwdps</scheme>
-      <scheme>gwdps_post</scheme>
+      <scheme>cires_ugwp</scheme>
+      <scheme>cires_ugwp_post</scheme>
       <scheme>rayleigh_damp</scheme>
       <scheme>GFS_suite_stateout_update</scheme>
       <scheme>ozphys_2015</scheme>
@@ -70,9 +70,6 @@
       <scheme>cs_conv</scheme>
       <scheme>cs_conv_post</scheme>
       <scheme>GFS_DCNV_generic_post</scheme>
-      <scheme>gwdc_pre</scheme>
-      <scheme>gwdc</scheme>
-      <scheme>gwdc_post</scheme>
       <scheme>GFS_SCNV_generic_pre</scheme>
       <scheme>GFS_SCNV_generic_post</scheme>
       <scheme>GFS_suite_interstitial_4</scheme>
