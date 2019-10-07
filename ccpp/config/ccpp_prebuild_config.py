@@ -100,7 +100,7 @@ SCHEME_FILES_DEPENDENCIES = [
     'ccpp/physics/physics/module_sf_noahmp_glacier.f90',
     'ccpp/physics/physics/module_sf_noahmplsm.f90',
     'ccpp/physics/physics/cires_ugwp_module.F90',
-    'ccpp/physics/physics/ugwp_driver_v0.f',
+    'ccpp/physics/physics/ugwp_driver_v0.F',
     'ccpp/physics/physics/cires_ugwp_triggers.F90',
     'ccpp/physics/physics/cires_ugwp_initialize.F90',
     'ccpp/physics/physics/cires_ugwp_solvers.F90',
