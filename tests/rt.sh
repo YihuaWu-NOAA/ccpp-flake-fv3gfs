@@ -169,13 +169,16 @@ elif [[ $MACHINE_ID = hera.* ]]; then
   export PYTHONPATH=/scratch4/NCEPDEV/meso/save/Dusan.Jovic/ecflow/lib/python2.7/site-packages
   ECFLOW_START=/scratch4/NCEPDEV/meso/save/Dusan.Jovic/ecflow/bin/ecflow_start.sh
   ECF_PORT=$(( $(id -u) + 1500 ))
-  QUEUE=debug
+#  QUEUE=debug
+  QUEUE=batch
 #  ACCNR=fv3-cpu
   PARTITION=
   dprefix=/scratch1/NCEPDEV
   DISKNM=$dprefix/nems/emc.nemspara/RT
-  STMP=/scratch1/BMC/gmtb
-  PTMP=/scratch1/BMC/gmtb
+#  STMP=/scratch1/BMC/gmtb
+  STMP=/scratch1/NCEPDEV/stmp2/Yihua.Wu
+#  PTMP=/scratch1/BMC/gmtb
+  PTMP=/scratch1/NCEPDEV/stmp2/Yihua.Wu
 
   # default scheduler on Hera
   SCHEDULER=slurm
@@ -343,7 +346,8 @@ done
 if [[ $MACHINE_ID = cheyenne.* ]]; then
   RTPWD=${RTPWD:-$DISKNM/trunk-20190925/${COMPILER^^}}
 else
-  RTPWD=${RTPWD:-$DISKNM/NEMSfv3gfs/trunk-20190925}
+#  RTPWD=${RTPWD:-$DISKNM/NEMSfv3gfs/trunk-20190925}
+  RTPWD=/scratch2/NCEPDEV/fv3-cam/Yihua.Wu/noscrub/trunk-20190925
 fi
 
 shift $((OPTIND-1))
@@ -678,10 +682,10 @@ else
    echo ; echo REGRESSION TEST WAS SUCCESSFUL
   (echo ; echo REGRESSION TEST WAS SUCCESSFUL) >> ${REGRESSIONTEST_LOG}
 
-  rm -f fv3_*.x fv3_*.exe modules.fv3_* run_test.env
-  [[ ${KEEP_RUNDIR} == false ]] && rm -rf ${RUNDIR_ROOT}
-  [[ ${ROCOTO:-false} == true ]] && rm -f ${ROCOTO_XML} ${ROCOTO_DB}
-  [[ ${ECFLOW:-false} == true ]] && rm -rf ${ECFLOW_RUN}
+#  rm -f fv3_*.x fv3_*.exe modules.fv3_* run_test.env
+#  [[ ${KEEP_RUNDIR} == false ]] && rm -rf ${RUNDIR_ROOT}
+#  [[ ${ROCOTO:-false} == true ]] && rm -f ${ROCOTO_XML} ${ROCOTO_DB}
+#  [[ ${ECFLOW:-false} == true ]] && rm -rf ${ECFLOW_RUN}
 fi
 
 date >> ${REGRESSIONTEST_LOG}

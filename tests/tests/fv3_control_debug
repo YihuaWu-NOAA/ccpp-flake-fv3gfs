@@ -12,6 +12,6 @@ export LIST_FILES=""
 
 export_fv3
 
-export FHMAX="06"
+export FHMAX="144"
 
 RUN_SCRIPT=rt_fv3.sh

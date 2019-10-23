@@ -81,7 +81,7 @@ COMPILER=${NEMS_COMPILER:-intel}
 if [[ $COMPILER = gnu ]] || [[ $COMPILER = pgi ]]; then
     WLCLK_dflt=30
 else
-    WLCLK_dflt=15
+    WLCLK_dflt=01:10:05
 fi
 
 export_fv3 ()
