@@ -228,7 +228,7 @@ SCHEME_FILES = {
     'ccpp/physics/physics/sfc_drv.f'                         : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_noahmp_pre.F90'                : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_noahmp_drv.f'                  : [ 'slow_physics' ],
-    'ccpp/physics/physics/flake_driver.F90'                  : [ 'slow_physics' ],
+    'ccpp/physics/physics/flake_driv.F90'                  : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_nst.f'                         : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_ocean.F'                       : [ 'slow_physics' ],
     'ccpp/physics/physics/sfc_sice.f'                        : [ 'slow_physics' ],
